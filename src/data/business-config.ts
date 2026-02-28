@@ -1,18 +1,18 @@
 export const BUSINESS_CONFIG = {
   name: "2ba Air",
   domain: "https://www.2baair.com",
-  phone: "(555) 123-4567",
-  phoneRaw: "tel:5551234567",
+  phone: "(703) 555-0198",
+  phoneRaw: "tel:7035550198",
   email: "service@2baair.com",
   address: {
-    street: "123 comfort way",
-    city: "City Center",
-    state: "ST",
-    zip: "12345",
-    full: "123 Comfort Way, City Center, ST 12345"
+    street: "8201 Greensboro Dr",
+    city: "Fairfax",
+    state: "VA",
+    zip: "22102",
+    full: "8201 Greensboro Dr, Fairfax, VA 22102"
   },
   serviceArea: {
-    summary: "Comprehensive HVAC coverage across the entire DMV region (DC, Maryland, Virginia)",
+    summary: "Comprehensive HVAC coverage across the entire DMV region (DC, Maryland, Northern Virginia)",
     state: "DMV",
     regions: [
       {
@@ -29,11 +29,11 @@ export const BUSINESS_CONFIG = {
       }
     ],
     cities: [
-      "Fairfax", "Arlington", "Loudoun", "Prince William", "Alexandria", 
+      "Fairfax", "Arlington", "Loudoun", "Prince William", "Alexandria",
       "Montgomery", "Prince George's", "Howard", "Frederick", "Washington DC"
     ]
   },
   hours: "Mon–Sat 8am–6pm; 24/7 Emergency Available",
-  license: "Licensed, Bonded & Fully Insured in VA, MD, and DC",
+  license: "Master Licensed, Bonded & Fully Insured in VA, MD, and DC",
   googleBusinessUrl: "#"
 };
