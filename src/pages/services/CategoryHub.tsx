@@ -1,11 +1,13 @@
 import React, { useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle2, AlertCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle2, AlertCircle, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { findCategoryBySlug } from '@/data/services-data';
 import { updateSEO } from '@/lib/seo';
 import { BreadcrumbNav } from '@/components/site/BreadcrumbNav';
+import { BUSINESS_CONFIG } from '@/data/business-config';
 export function CategoryHub() {
   const { category } = useParams();
   const data = findCategoryBySlug(category || '');
@@ -13,7 +15,7 @@ export function CategoryHub() {
     if (data) {
       updateSEO({
         title: `${data.title} Services | 2ba Air HVAC`,
-        description: data.description,
+        description: `${data.description}. Professional assessments starting at ${BUSINESS_CONFIG.assessmentPrice}.`,
       });
     }
   }, [data]);
@@ -27,6 +29,9 @@ export function CategoryHub() {
         <section className={`relative rounded-[3rem] p-12 lg:p-20 overflow-hidden text-white ${themeClass}`}>
           <div className="absolute inset-0 hvac-pattern-airflow opacity-10" />
           <div className="relative z-10 max-w-3xl space-y-6">
+            <Badge className="bg-white text-primary hover:bg-white font-black px-4 py-2 rounded-full text-sm mb-2 shadow-lg">
+              <Tag className="h-3 w-3 mr-2" /> Professional Assessment: {BUSINESS_CONFIG.assessmentPrice}
+            </Badge>
             <h1 className="text-4xl sm:text-6xl font-display font-extrabold tracking-tight leading-tight">
               {data.h1}
             </h1>
@@ -34,8 +39,8 @@ export function CategoryHub() {
               {data.description}. Our local team provides straightforward recommendations and craftsman-level work for your home or business.
             </p>
             <div className="flex gap-4 pt-4">
-              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
-                <Link to="/contact">Request Service</Link>
+              <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90 font-bold">
+                <Link to="/contact">Request {BUSINESS_CONFIG.assessmentPrice} Assessment</Link>
               </Button>
             </div>
           </div>
@@ -45,8 +50,8 @@ export function CategoryHub() {
             <h2 className="text-3xl font-bold text-primary">Service Options</h2>
             <div className="grid gap-4">
               {data.services.map(s => (
-                <Link 
-                  key={s.slug} 
+                <Link
+                  key={s.slug}
                   to={`/services/${data.slug}/${s.slug}`}
                   className="group flex items-center justify-between p-6 rounded-2xl border bg-card hover:border-primary hover:shadow-lg transition-all"
                 >

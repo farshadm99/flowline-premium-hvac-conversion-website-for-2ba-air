@@ -12,9 +12,10 @@ import {
   CreditCard,
   ShieldCheck,
   ChevronRight,
-  CalendarCheck
+  Tag
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import { ReviewBadgesRow } from '@/components/site/ReviewBadgesRow';
 import { updateSEO, commonSchemas } from '@/lib/seo';
 import { BUSINESS_CONFIG } from '@/data/business-config';
@@ -33,30 +34,35 @@ export function HomePage() {
         <div className="absolute inset-0 bg-hvac-thermal-cool opacity-5 -z-10" />
         <div className="absolute inset-0 hvac-pattern-airflow opacity-10 -z-10" />
         <div className="grid lg:grid-cols-2 gap-10 items-center">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }} 
-            animate={{ opacity: 1, x: 0 }} 
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
             className="space-y-6 z-10"
           >
-            <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-destructive"></span>
-              </span>
-              On-demand availability in {BUSINESS_CONFIG.serviceArea.cities[0]}
+            <div className="flex flex-wrap items-center gap-3">
+              <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">
+                <span className="relative flex h-2 w-2">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2 w-2 bg-destructive"></span>
+                </span>
+                Immediate Dispatch
+              </div>
+              <Badge className="bg-destructive text-white hover:bg-destructive font-black px-4 py-2 rounded-full text-sm animate-pulse">
+                Professional Assessment: {BUSINESS_CONFIG.assessmentPrice}
+              </Badge>
             </div>
             <h1 className="text-4xl lg:text-6xl font-display font-extrabold tracking-tight text-primary leading-[1.1]">
               Comfort You Can <span className="text-destructive">Count On</span>—Every Season.
             </h1>
             <p className="text-lg text-muted-foreground leading-relaxed max-w-xl">
-              Professional HVAC service for homes and light commercial spaces across {BUSINESS_CONFIG.serviceArea.summary}. Clean workmanship and reliable results—guaranteed.
+              Professional HVAC service across {BUSINESS_CONFIG.serviceArea.summary}. Honest options, clean workmanship, and reliable results—guaranteed.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" className="hvac-cta-red text-lg h-14 px-8 font-bold tracking-tight">
                 <a href={BUSINESS_CONFIG.phoneRaw}>CALL NOW</a>
               </Button>
               <Button asChild size="lg" className="hvac-cta-navy text-lg h-14 px-8 font-bold tracking-tight">
-                <Link to="/contact">GET SERVICE</Link>
+                <Link to="/contact">REQUEST ASSESSMENT</Link>
               </Button>
             </div>
             <div className="grid grid-cols-2 gap-x-6 gap-y-2 pt-4 border-t border-primary/5">
@@ -68,15 +74,15 @@ export function HomePage() {
               ))}
             </div>
           </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }} 
-            animate={{ opacity: 1, scale: 1 }} 
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
             className="relative hidden lg:block"
           >
             <div className="relative rounded-[3rem] overflow-hidden aspect-[4/3] shadow-2xl border-8 border-white">
               <img
                 src="https://images.unsplash.com/photo-1581094288338-2314dddb7ecb?auto=format&fit=crop&q=80&w=1200"
-                alt="2ba Air professional technician servicing a high-efficiency air conditioning unit"
+                alt="2ba Air professional technician"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent" />
@@ -109,11 +115,11 @@ export function HomePage() {
         <div className="max-w-6xl mx-auto px-4 overflow-x-auto no-scrollbar">
           <div className="flex justify-between items-center gap-10 min-w-[800px]">
             {[
+              { icon: Tag, label: `Assessment: ${BUSINESS_CONFIG.assessmentPrice}` },
               { icon: ShieldCheck, label: "Licensed / Insured" },
               { icon: BadgeCheck, label: "Expert Technicians" },
               { icon: Clock, label: "Warranty-Backed" },
               { icon: CreditCard, label: "Easy Financing" },
-              { icon: CheckCircle2, label: "100% Satisfaction" },
             ].map((item, idx) => (
               <div key={idx} className="flex items-center gap-3 text-primary-foreground whitespace-nowrap group">
                 <item.icon className="h-6 w-6 text-destructive transition-transform group-hover:scale-110" />
@@ -221,7 +227,7 @@ export function HomePage() {
               <a href={BUSINESS_CONFIG.phoneRaw}>CALL NOW</a>
             </Button>
             <Button asChild size="lg" variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary text-xl h-16 px-12 font-black tracking-tight rounded-2xl">
-              <Link to="/contact">BOOK ONLINE</Link>
+              <Link to="/contact">BOOK ASSESSMENT</Link>
             </Button>
           </div>
         </div>

@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CheckCircle2, ArrowRight, ShieldCheck, Phone, Info, Zap } from 'lucide-react';
+import { CheckCircle2, ArrowRight, ShieldCheck, Phone, Info, Zap, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
 import { findServiceBySlug } from '@/data/services-data';
 import { updateSEO } from '@/lib/seo';
 import { BreadcrumbNav } from '@/components/site/BreadcrumbNav';
@@ -46,6 +47,9 @@ export function ServiceDetail() {
         {/* HERO */}
         <section className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
+            <Badge className="bg-primary/10 text-primary hover:bg-primary/10 font-black px-4 py-2 rounded-full text-sm">
+              <Tag className="h-3 w-3 mr-2 text-destructive" /> Professional Assessment: {BUSINESS_CONFIG.assessmentPrice}
+            </Badge>
             <h1 className="text-4xl sm:text-6xl font-display font-extrabold text-primary tracking-tight leading-tight">
               {displayH1}
             </h1>
@@ -53,10 +57,10 @@ export function ServiceDetail() {
               {data.promise}
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button asChild size="lg" className="hvac-cta-red h-14 px-8">
-                <Link to="/contact">Request Service</Link>
+              <Button asChild size="lg" className="hvac-cta-red h-14 px-8 font-bold">
+                <Link to="/contact">Request {BUSINESS_CONFIG.assessmentPrice} Assessment</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-14 px-8 border-primary text-primary">
+              <Button asChild size="lg" variant="outline" className="h-14 px-8 border-primary text-primary font-bold">
                 <a href={BUSINESS_CONFIG.phoneRaw}><Phone className="mr-2 h-4 w-4" /> {BUSINESS_CONFIG.phone}</a>
               </Button>
             </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Phone, Clock, Mail, CheckCircle2, ShieldAlert, AlertTriangle } from 'lucide-react';
+import { Phone, CheckCircle2, ShieldAlert, AlertTriangle, Tag } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
@@ -43,16 +43,16 @@ export function ContactPage() {
   });
   useEffect(() => {
     updateSEO({
-      title: isEmergency ? `EMERGENCY HVAC Help | ${BUSINESS_CONFIG.name}` : `Contact ${BUSINESS_CONFIG.name} | Request HVAC Service`,
+      title: isEmergency ? `EMERGENCY HVAC Help | ${BUSINESS_CONFIG.name}` : `Contact ${BUSINESS_CONFIG.name} | Request Professional Assessment`,
       description: isEmergency
         ? `Immediate HVAC help needed? Call ${BUSINESS_CONFIG.phone} now. 24/7 emergency repair available for no heat, no AC, or leaks.`
-        : `Request HVAC service or a free estimate online. Our team will reach out shortly to confirm scheduling in ${BUSINESS_CONFIG.serviceArea.cities[0]}.`,
+        : `Request an HVAC professional assessment starting at ${BUSINESS_CONFIG.assessmentPrice}. Our team will reach out shortly to confirm scheduling in ${BUSINESS_CONFIG.serviceArea.cities[0]}.`,
     });
   }, [isEmergency]);
-  const onSubmit = async (data: ContactFormData, submitIntent?: string) => {
+  const onSubmit = async (data: ContactFormData) => {
     setIsLoading(true);
     try {
-      const finalIntent = isEmergency ? 'emergency' : (submitIntent || intentParam || 'service');
+      const finalIntent = isEmergency ? 'emergency' : (intentParam || 'service');
       await api('/api/leads', {
         method: 'POST',
         body: JSON.stringify({
@@ -109,20 +109,17 @@ export function ContactPage() {
               className="data-[state=checked]:bg-white data-[state=checked]:text-destructive"
             />
           </div>
-          <p className="text-xs font-bold text-muted-foreground uppercase tracking-tighter">Toggle for 24/7 urgent repair dispatch</p>
         </div>
         <div className="grid lg:grid-cols-5 gap-12 items-start">
           <div className="lg:col-span-2 space-y-8 pt-6">
             <div className="space-y-4">
               <h1 className={cn("text-4xl lg:text-5xl font-display font-extrabold tracking-tight leading-[1.1]", isEmergency ? "text-destructive" : "text-primary")}>
-                {isEmergency ? "Emergency Dispatch" : (intentParam === 'estimate' ? "Free Estimate Request" : "Request Service")}
+                {isEmergency ? "Emergency Dispatch" : "Request Assessment"}
               </h1>
               <p className="text-muted-foreground text-lg leading-relaxed">
                 {isEmergency
-                  ? "Our emergency technicians are on standby 24/7. Use the form below for fast intake or call now for immediate dispatch."
-                  : (intentParam === 'financing' 
-                      ? "Interested in financing? Tell us about your project and we will walk you through the options." 
-                      : "Tell us what’s going on—our team will reach out shortly to confirm details and scheduling.")
+                  ? "Our emergency technicians are on standby 24/7. Use the form for fast intake or call now for immediate dispatch."
+                  : "Tell us what’s going on—our team will reach out shortly to confirm details and scheduling."
                 }
               </p>
             </div>
@@ -161,124 +158,120 @@ export function ContactPage() {
               )}
             </AnimatePresence>
           </div>
-          <Card className={cn(
-            "lg:col-span-3 border-none shadow-2xl rounded-[3rem] overflow-hidden transition-all duration-500",
-            isEmergency ? "ring-4 ring-destructive" : ""
-          )}>
-            {isEmergency && (
-              <div className="bg-destructive text-white py-4 px-8 flex justify-between items-center animate-pulse">
-                <span className="font-black text-lg uppercase tracking-widest">EMERGENCY INTAKE ACTIVE</span>
-                <Phone className="h-5 w-5" />
+          <div className="lg:col-span-3 space-y-4">
+            {!isEmergency && (
+              <div className="bg-primary text-white p-4 rounded-2xl flex items-center gap-3 shadow-lg">
+                <Tag className="h-6 w-6 text-destructive" />
+                <span className="font-black tracking-tight uppercase">Professional Assessment Starting At {BUSINESS_CONFIG.assessmentPrice}</span>
               </div>
             )}
-            <CardContent className="p-8 sm:p-12 space-y-8">
-              <form onSubmit={handleSubmit((data) => onSubmit(data))} className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <Label className={isEmergency ? "text-destructive font-bold" : ""}>Your Name*</Label>
-                    <Input {...register('name')} placeholder="John Doe" className={cn("h-12 rounded-xl", errors.name ? 'border-destructive' : '')} />
-                    {errors.name && <p className="text-xs text-destructive font-bold">{errors.name.message}</p>}
-                  </div>
-                  <div className="space-y-2">
-                    <Label className={isEmergency ? "text-destructive font-bold" : ""}>Phone Number*</Label>
-                    <Input {...register('phone')} placeholder="(###) ###-####" className={cn("h-12 rounded-xl", errors.phone ? 'border-destructive' : '')} />
-                    {errors.phone && <p className="text-xs text-destructive font-bold">{errors.phone.message}</p>}
-                  </div>
+            <Card className={cn(
+              "border-none shadow-2xl rounded-[3rem] overflow-hidden transition-all duration-500",
+              isEmergency ? "ring-4 ring-destructive" : ""
+            )}>
+              {isEmergency && (
+                <div className="bg-destructive text-white py-4 px-8 flex justify-between items-center animate-pulse">
+                  <span className="font-black text-lg uppercase tracking-widest">EMERGENCY INTAKE ACTIVE</span>
+                  <Phone className="h-5 w-5" />
                 </div>
-                {!isEmergency && (
-                  <div className="space-y-2">
-                    <Label>Email Address</Label>
-                    <Input {...register('email')} placeholder="john@example.com" className="h-12 rounded-xl" />
-                  </div>
-                )}
-                <div className="space-y-2">
-                  <Label className={isEmergency ? "text-destructive font-bold" : ""}>Service Address*</Label>
-                  <Input {...register('address')} placeholder="123 Comfort St, City, State ZIP" className={cn("h-12 rounded-xl", errors.address ? 'border-destructive' : '')} />
-                  {errors.address && <p className="text-xs text-destructive font-bold">{errors.address.message}</p>}
-                </div>
-                {isEmergency ? (
-                  <div className="space-y-2">
-                    <Label className="text-destructive font-bold">Emergency Type</Label>
-                    <Select onValueChange={(val) => setValue('emergencyType', val)} defaultValue="No AC">
-                      <SelectTrigger className="h-12 rounded-xl border-destructive/50">
-                        <SelectValue placeholder="Select emergency type" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="No Heat">No Heat (Furnace Failure)</SelectItem>
-                        <SelectItem value="No AC">No AC (Extreme Heat)</SelectItem>
-                        <SelectItem value="Water Leak">Major Water Leak</SelectItem>
-                        <SelectItem value="Burning Smell">Burning / Electrical Smell</SelectItem>
-                        <SelectItem value="Gas Smell">Gas Smell (Evacuate First!)</SelectItem>
-                        <SelectItem value="Other">Other Urgent Issue</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                ) : (
+              )}
+              <CardContent className="p-8 sm:p-12 space-y-8">
+                <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <Label>Service Category</Label>
-                      <Select onValueChange={(val) => setValue('serviceType', val)} defaultValue={intentParam === 'financing' ? 'Financing' : 'Cooling'}>
-                        <SelectTrigger className="h-12 rounded-xl">
-                          <SelectValue placeholder="Select service" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Cooling">Cooling / AC</SelectItem>
-                          <SelectItem value="Heating">Heating / Furnace</SelectItem>
-                          <SelectItem value="Heat Pump">Heat Pump</SelectItem>
-                          <SelectItem value="IAQ">Air Quality</SelectItem>
-                          <SelectItem value="Financing">Financing Inquiry</SelectItem>
-                          <SelectItem value="Commercial">Commercial</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <Label className={isEmergency ? "text-destructive font-bold" : ""}>Your Name*</Label>
+                      <Input {...register('name')} placeholder="John Doe" className={cn("h-12 rounded-xl", errors.name ? 'border-destructive' : '')} />
+                      {errors.name && <p className="text-xs text-destructive font-bold">{errors.name.message}</p>}
                     </div>
                     <div className="space-y-2">
-                      <Label>Preferred Time</Label>
-                      <Select onValueChange={(val) => setValue('preferredTime', val)}>
-                        <SelectTrigger className="h-12 rounded-xl">
-                          <SelectValue placeholder="Select time of day" />
+                      <Label className={isEmergency ? "text-destructive font-bold" : ""}>Phone Number*</Label>
+                      <Input {...register('phone')} placeholder="(###) ###-####" className={cn("h-12 rounded-xl", errors.phone ? 'border-destructive' : '')} />
+                      {errors.phone && <p className="text-xs text-destructive font-bold">{errors.phone.message}</p>}
+                    </div>
+                  </div>
+                  {!isEmergency && (
+                    <div className="space-y-2">
+                      <Label>Email Address</Label>
+                      <Input {...register('email')} placeholder="john@example.com" className="h-12 rounded-xl" />
+                    </div>
+                  )}
+                  <div className="space-y-2">
+                    <Label className={isEmergency ? "text-destructive font-bold" : ""}>Service Address*</Label>
+                    <Input {...register('address')} placeholder="123 Comfort St, City, State ZIP" className={cn("h-12 rounded-xl", errors.address ? 'border-destructive' : '')} />
+                    {errors.address && <p className="text-xs text-destructive font-bold">{errors.address.message}</p>}
+                  </div>
+                  {isEmergency ? (
+                    <div className="space-y-2">
+                      <Label className="text-destructive font-bold">Emergency Type</Label>
+                      <Select onValueChange={(val) => setValue('emergencyType', val)} defaultValue="No AC">
+                        <SelectTrigger className="h-12 rounded-xl border-destructive/50">
+                          <SelectValue placeholder="Select emergency type" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Morning">Morning (8am-12pm)</SelectItem>
-                          <SelectItem value="Afternoon">Afternoon (12pm-4pm)</SelectItem>
-                          <SelectItem value="Evening">Evening (4pm-6pm)</SelectItem>
+                          <SelectItem value="No Heat">No Heat (Furnace Failure)</SelectItem>
+                          <SelectItem value="No AC">No AC (Extreme Heat)</SelectItem>
+                          <SelectItem value="Water Leak">Major Water Leak</SelectItem>
+                          <SelectItem value="Burning Smell">Burning / Electrical Smell</SelectItem>
+                          <SelectItem value="Gas Smell">Gas Smell (Evacuate First!)</SelectItem>
+                          <SelectItem value="Other">Other Urgent Issue</SelectItem>
                         </SelectContent>
                       </Select>
                     </div>
-                  </div>
-                )}
-                <div className="space-y-2">
-                  <Label className={isEmergency ? "text-destructive font-bold" : ""}>{isEmergency ? "Emergency Details (Optional)" : "How can we help?"}</Label>
-                  <Textarea {...register('message')} placeholder="Tell us more about the issue..." className="min-h-[120px] rounded-xl" />
-                </div>
-                <div className="pt-4">
-                  {isEmergency ? (
-                    <div className="space-y-4">
-                      <Button asChild size="lg" className="hvac-cta-red w-full h-16 text-xl font-black">
-                        <a href={BUSINESS_CONFIG.phoneRaw}>CALL NOW (EMERGENCY)</a>
-                      </Button>
-                      <p className="text-center text-destructive font-bold text-sm">Emergency dispatchers are active now.</p>
-                    </div>
                   ) : (
-                    <div className="flex flex-col gap-4">
-                      <Button type="submit" disabled={isLoading} size="lg" className="hvac-cta-navy w-full h-16 text-xl font-bold">
-                        {isLoading ? "Sending..." : "Request Fast Service"}
-                      </Button>
-                      <Button 
-                        variant="outline" 
-                        type="button" 
-                        onClick={handleSubmit((data) => onSubmit(data, 'estimate'))} 
-                        disabled={isLoading} 
-                        size="lg" 
-                        className="w-full h-14 border-primary text-primary font-bold rounded-xl"
-                      >
-                        Request Free Estimate
-                      </Button>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <div className="space-y-2">
+                        <Label>Service Category</Label>
+                        <Select onValueChange={(val) => setValue('serviceType', val)} defaultValue={intentParam === 'financing' ? 'Financing' : 'Cooling'}>
+                          <SelectTrigger className="h-12 rounded-xl">
+                            <SelectValue placeholder="Select service" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Cooling">Cooling / AC</SelectItem>
+                            <SelectItem value="Heating">Heating / Furnace</SelectItem>
+                            <SelectItem value="Heat Pump">Heat Pump</SelectItem>
+                            <SelectItem value="IAQ">Air Quality</SelectItem>
+                            <SelectItem value="Financing">Financing Inquiry</SelectItem>
+                            <SelectItem value="Commercial">Commercial</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div className="space-y-2">
+                        <Label>Preferred Time</Label>
+                        <Select onValueChange={(val) => setValue('preferredTime', val)}>
+                          <SelectTrigger className="h-12 rounded-xl">
+                            <SelectValue placeholder="Select time of day" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Morning">Morning (8am-12pm)</SelectItem>
+                            <SelectItem value="Afternoon">Afternoon (12pm-4pm)</SelectItem>
+                            <SelectItem value="Evening">Evening (4pm-6pm)</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
                     </div>
                   )}
-                </div>
-              </form>
-            </CardContent>
-          </Card>
+                  <div className="space-y-2">
+                    <Label className={isEmergency ? "text-destructive font-bold" : ""}>{isEmergency ? "Emergency Details (Optional)" : "How can we help?"}</Label>
+                    <Textarea {...register('message')} placeholder="Tell us more about the issue..." className="min-h-[120px] rounded-xl" />
+                  </div>
+                  <div className="pt-4">
+                    {isEmergency ? (
+                      <div className="space-y-4">
+                        <Button asChild size="lg" className="hvac-cta-red w-full h-16 text-xl font-black">
+                          <a href={BUSINESS_CONFIG.phoneRaw}>CALL NOW (EMERGENCY)</a>
+                        </Button>
+                        <p className="text-center text-destructive font-bold text-sm">Emergency dispatchers are active now.</p>
+                      </div>
+                    ) : (
+                      <Button type="submit" disabled={isLoading} size="lg" className="hvac-cta-navy w-full h-16 text-xl font-bold">
+                        {isLoading ? "Sending..." : "Request Fast Assessment"}
+                      </Button>
+                    )}
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
+          </div>
         </div>
       </div>
     </div>
