@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, Phone, UserCircle, ChevronRight, Wind, Thermometer, Zap, Waves, Settings, Factory } from 'lucide-react';
+import { Menu, Phone, Wind, Thermometer, Zap, Factory, Waves, ChevronRight } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,37 +19,48 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { BUSINESS_CONFIG } from '@/data/business-config';
 const LOGO_URL = "https://i.ibb.co/GvQ24WkQ/2BA-Logo.png";
-const serviceGroups = [
-  { 
-    title: "Cooling", 
-    href: "/services/cooling", 
+const serviceCategories = [
+  {
+    title: "Cooling",
+    href: "/services/cooling",
     icon: Wind,
-    description: "AC repair, installation, and mini-splits.",
-    items: ["AC Repair", "AC Installation", "AC Maintenance", "Mini-Splits"]
+    description: "AC repair, high-efficiency installation, and ductless mini-splits.",
+    color: "text-blue-500",
+    bgColor: "bg-blue-500/10"
   },
-  { 
-    title: "Heating", 
-    href: "/services/heating", 
+  {
+    title: "Heating",
+    href: "/services/heating",
     icon: Thermometer,
-    description: "Furnaces, boilers, and heating tune-ups.",
-    items: ["Furnace Repair", "Furnace Installation", "Maintenance", "Boilers"]
+    description: "Furnace repair, new heating systems, and seasonal safety checks.",
+    color: "text-orange-500",
+    bgColor: "bg-orange-500/10"
   },
-  { 
-    title: "Heat Pumps", 
-    href: "/services/heat-pumps", 
+  {
+    title: "Heat Pumps",
+    href: "/services/heat-pumps",
     icon: Zap,
-    description: "Hybrid and all-electric efficiency.",
-    items: ["Repair", "Installation", "Maintenance"]
+    description: "Hybrid systems and all-electric heating and cooling solutions.",
+    color: "text-yellow-500",
+    bgColor: "bg-yellow-500/10"
   },
-  { 
-    title: "Specialty", 
-    href: "/services", 
+  {
+    title: "Ductwork & IAQ",
+    href: "/services/ductwork",
+    icon: Waves,
+    description: "Air filtration, humidity control, and precision duct sealing.",
+    color: "text-cyan-500",
+    bgColor: "bg-cyan-500/10"
+  },
+  {
+    title: "Commercial",
+    href: "/services/commercial",
     icon: Factory,
-    description: "Ductwork, IAQ, and Commercial.",
-    items: ["Duct Sealing", "Air Quality", "Commercial HVAC"]
+    description: "Specialized HVAC services for light commercial and retail spaces.",
+    color: "text-primary",
+    bgColor: "bg-primary/10"
   },
 ];
 export function Header() {
@@ -71,33 +82,27 @@ export function Header() {
                 <NavigationMenuItem>
                   <NavigationMenuTrigger className="font-semibold">Services</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <div className="grid w-[800px] gap-6 p-6 lg:grid-cols-2">
-                      {serviceGroups.map((group) => (
-                        <div key={group.title} className="space-y-4">
-                          <NavigationMenuLink asChild>
-                            <Link
-                              to={group.href}
-                              className="flex items-start gap-3 select-none rounded-xl p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
-                            >
-                              <div className="p-2 bg-primary/5 rounded-lg">
-                                <group.icon className="h-5 w-5 text-primary" />
+                    <div className="grid w-[800px] gap-4 p-6 lg:grid-cols-2">
+                      {serviceCategories.map((category) => (
+                        <NavigationMenuLink key={category.title} asChild>
+                          <Link
+                            to={category.href}
+                            className="group flex items-start gap-4 select-none rounded-2xl p-4 leading-none no-underline outline-none transition-all hover:bg-accent hover:shadow-md"
+                          >
+                            <div className={cn("p-3 rounded-xl shrink-0 transition-transform group-hover:scale-110", category.bgColor)}>
+                              <category.icon className={cn("h-6 w-6", category.color)} />
+                            </div>
+                            <div className="space-y-2">
+                              <div className="text-base font-bold leading-none text-primary flex items-center gap-1">
+                                {category.title}
+                                <ChevronRight className="h-3 w-3 opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                               </div>
-                              <div className="space-y-1">
-                                <div className="text-sm font-bold leading-none">{group.title}</div>
-                                <p className="text-xs leading-snug text-muted-foreground">
-                                  {group.description}
-                                </p>
-                              </div>
-                            </Link>
-                          </NavigationMenuLink>
-                          <ul className="grid grid-cols-2 gap-2 pl-12">
-                            {group.items.map(item => (
-                              <li key={item} className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors cursor-pointer">
-                                {item}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
+                              <p className="text-sm leading-relaxed text-muted-foreground">
+                                {category.description}
+                              </p>
+                            </div>
+                          </Link>
+                        </NavigationMenuLink>
                       ))}
                     </div>
                   </NavigationMenuContent>
@@ -148,8 +153,11 @@ export function Header() {
                     <div className="space-y-4">
                       <div className="text-xs font-black uppercase tracking-widest text-muted-foreground">Services</div>
                       <div className="grid grid-cols-1 gap-3 pl-4 border-l-2 border-primary/10">
-                        {serviceGroups.map(s => (
-                          <Link key={s.href} to={s.href} className="text-lg font-semibold hover:text-primary">{s.title}</Link>
+                        {serviceCategories.map(s => (
+                          <Link key={s.href} to={s.href} className="text-lg font-semibold hover:text-primary flex items-center justify-between">
+                            {s.title}
+                            <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                          </Link>
                         ))}
                       </div>
                     </div>
