@@ -8,11 +8,10 @@ import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { BreadcrumbNav } from '@/components/site/BreadcrumbNav';
 import { updateSEO } from '@/lib/seo';
 import { TROUBLESHOOTING_SECTIONS } from '@/data/site-content';
-import { BUSINESS_CONFIG } from '@/data/business-config';
 export function TroubleshootingPage() {
   useEffect(() => {
     updateSEO({
-      title: `HVAC Troubleshooting Guide | ${BUSINESS_CONFIG.name}`,
+      title: "HVAC Troubleshooting Guide | 2ba Air",
       description: "Diagnose common AC and heating problems safely. Try our homeowner checks before calling a pro.",
     });
   }, []);
@@ -102,7 +101,7 @@ export function TroubleshootingPage() {
               <p className="text-primary-foreground/70 mb-8 max-w-xl mx-auto">Our emergency team is available 24/7 for urgent breakdowns. Don't wait in the cold or heat.</p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Button asChild size="lg" className="hvac-cta-red">
-                  <a href={BUSINESS_CONFIG.phoneRaw}><Phone className="mr-2 h-4 w-4" /> Call {BUSINESS_CONFIG.phone}</a>
+                  <a href="tel:###-###-####"><Phone className="mr-2 h-4 w-4" /> Call (###) ###-####</a>
                 </Button>
                 <Button asChild variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary">
                   <Link to="/contact">Request Priority Service</Link>

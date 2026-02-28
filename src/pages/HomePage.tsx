@@ -1,15 +1,22 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { 
-  CheckCircle2, 
-  Wind, 
-  Thermometer, 
-  Zap, 
-  ArrowRight, 
-  BadgeCheck, 
-  Clock, 
-  CreditCard 
+import {
+  CheckCircle2,
+  Wind,
+  Thermometer,
+  Zap,
+  ArrowRight,
+  BadgeCheck,
+  Clock,
+  CreditCard,
+  ShieldCheck,
+  ChevronRight,
+  CalendarCheck,
+  Search,
+  Wrench,
+  ThumbsUp,
+  LayoutGrid
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ReviewBadgesRow } from '@/components/site/ReviewBadgesRow';
@@ -23,17 +30,13 @@ export function HomePage() {
     });
   }, []);
   return (
-    <div className="space-y-20 -mt-8 md:-mt-10 lg:-mt-12">
+    <div className="space-y-24 -mt-8 md:-mt-10 lg:-mt-12">
       {/* HERO SECTION */}
       <section className="relative overflow-hidden pt-12 lg:pt-20 pb-16">
         <div className="absolute inset-0 bg-hvac-thermal-cool opacity-5 -z-10" />
         <div className="absolute inset-0 hvac-pattern-airflow opacity-10 -z-10" />
         <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="space-y-8"
-          >
+          <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} className="space-y-8">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-semibold">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
@@ -59,12 +62,7 @@ export function HomePage() {
               </Button>
             </div>
             <div className="grid grid-cols-2 gap-4 pt-4">
-              {[
-                "Same-day availability",
-                "Licensed & insured",
-                "Upfront options",
-                "Work backed by warranty"
-              ].map(item => (
+              {["Same-day availability", "Licensed & insured", "Upfront options", "Work backed by warranty"].map(item => (
                 <div key={item} className="flex items-center gap-2 text-sm font-medium text-muted-foreground">
                   <CheckCircle2 className="h-5 w-5 text-destructive" />
                   {item}
@@ -72,27 +70,16 @@ export function HomePage() {
               ))}
             </div>
           </motion.div>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="relative hidden lg:block"
-          >
-            {/* SVG HVAC Illustration Placeholder */}
+          <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="relative hidden lg:block">
             <div className="bg-gradient-to-br from-primary/5 to-destructive/5 rounded-3xl p-8 border shadow-inner">
               <svg viewBox="0 0 400 400" className="w-full h-auto" xmlns="http://www.w3.org/2000/svg">
                 <rect x="100" y="100" width="200" height="250" rx="20" fill="#0B1B3B" />
                 <rect x="120" y="120" width="160" height="100" rx="10" fill="#163B78" />
                 <circle cx="200" cy="280" r="50" fill="#D7262E" opacity="0.8" />
                 <path d="M150 140h100M150 160h100M150 180h100" stroke="white" strokeWidth="2" strokeLinecap="round" />
-                <motion.circle 
-                  cx="200" cy="280" r="30" fill="none" stroke="white" strokeWidth="4" 
-                  strokeDasharray="20 10" 
-                  animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 3, ease: "linear" }}
-                />
+                <motion.circle cx="200" cy="280" r="30" fill="none" stroke="white" strokeWidth="4" strokeDasharray="20 10" animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 3, ease: "linear" }} />
               </svg>
             </div>
-            {/* Overlay trust element */}
             <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl border flex items-center gap-4">
               <div className="bg-destructive/10 p-3 rounded-xl">
                 <BadgeCheck className="h-8 w-8 text-destructive" />
@@ -138,9 +125,7 @@ export function HomePage() {
       <section className="space-y-12">
         <div className="text-center space-y-4 max-w-2xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-bold text-primary">HVAC help, without the guesswork.</h2>
-          <p className="text-lg text-muted-foreground">
-            Tell us what’s happening—or choose a service below. We’ll confirm details, show clear options, and get your comfort back fast.
-          </p>
+          <p className="text-lg text-muted-foreground">Tell us what’s happening��or choose a service below. We’ll confirm details, show clear options, and get your comfort back fast.</p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
@@ -161,22 +146,113 @@ export function HomePage() {
                 ))}
               </ul>
               <Button asChild variant="link" className="p-0 text-primary group-hover:translate-x-1 transition-transform">
-                <Link to={rail.href} className="flex items-center gap-1 font-bold">
-                  Explore {rail.title} <ArrowRight className="h-4 w-4" />
-                </Link>
+                <Link to={rail.href} className="flex items-center gap-1 font-bold">Explore {rail.title} <ArrowRight className="h-4 w-4" /></Link>
               </Button>
             </div>
           ))}
         </div>
       </section>
+      {/* WHY CHOOSE US */}
+      <section className="grid lg:grid-cols-2 gap-16 items-center">
+        <div className="space-y-8">
+          <h2 className="text-4xl font-bold text-primary tracking-tight">Straight talk, clean work, honest options.</h2>
+          <p className="text-lg text-muted-foreground leading-relaxed">
+            We know finding a reliable HVAC team can be stressful. That’s why we focus on clarity and craftsmanship above all else.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-6">
+            {[
+              "Straightforward recommendations",
+              "Clean, careful work (shoe covers)",
+              "Repair-first mindset",
+              "Clear options before we start",
+              "Respect for your home",
+              "Efficiency-focused airflow checks",
+              "Friendly, explaining techs",
+              "Service across [Service Area]"
+            ].map(bullet => (
+              <div key={bullet} className="flex items-start gap-2">
+                <CheckCircle2 className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
+                <span className="text-sm font-semibold text-muted-foreground">{bullet}</span>
+              </div>
+            ))}
+          </div>
+          <Button asChild className="hvac-cta-navy">
+            <Link to="/about">More About Our Mission</Link>
+          </Button>
+        </div>
+        <div className="relative">
+          <div className="absolute inset-0 hvac-pattern-blueprint opacity-5" />
+          <div className="bg-primary/5 rounded-[3rem] p-12 lg:p-16 border space-y-8">
+            <h3 className="text-2xl font-bold text-primary">Need flexibility?</h3>
+            <p className="text-muted-foreground">We offer various financing options to help ensure your home is safe and comfortable without an immediate large financial burden.</p>
+            <div className="flex items-center gap-4 bg-white p-6 rounded-2xl shadow-sm border">
+              <CreditCard className="h-10 w-10 text-destructive" />
+              <div>
+                <div className="font-bold text-primary">Financing Available</div>
+                <div className="text-sm text-muted-foreground">Ask about options during scheduling.</div>
+              </div>
+            </div>
+            <Button asChild variant="outline" className="w-full h-12 border-primary text-primary">
+              <Link to="/contact?intent=financing">Request Financing Info</Link>
+            </Button>
+          </div>
+        </div>
+      </section>
+      {/* OUR PROCESS */}
+      <section className="space-y-12">
+        <h2 className="text-3xl sm:text-4xl font-bold text-primary text-center">Our Simple 5-Step Process</h2>
+        <div className="grid md:grid-cols-5 gap-4 relative">
+          {[
+            { icon: CalendarCheck, title: "Schedule", desc: "Easy online booking or phone call." },
+            { icon: Search, title: "Diagnose", desc: "Tech finds the root cause fast." },
+            { icon: LayoutGrid, title: "Options", desc: "Clear fixes with upfront pricing." },
+            { icon: Wrench, title: "Repair", desc: "Clean work backed by warranty." },
+            { icon: ThumbsUp, title: "Test", desc: "We ensure you're 100% satisfied." }
+          ].map((step, i) => (
+            <div key={i} className="bg-card border rounded-3xl p-6 text-center space-y-4 hover:border-primary transition-colors">
+              <div className="mx-auto w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold mb-2">
+                {i + 1}
+              </div>
+              <step.icon className="h-8 w-8 text-destructive mx-auto" />
+              <h4 className="font-bold text-primary">{step.title}</h4>
+              <p className="text-xs text-muted-foreground">{step.desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+      {/* MAINTENANCE PLAN TEASER */}
+      <section className="bg-primary py-16 px-8 rounded-[3rem] text-white relative overflow-hidden">
+        <div className="absolute inset-0 hvac-pattern-airflow opacity-5" />
+        <div className="relative z-10 grid lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+          <div className="space-y-6">
+            <div className="bg-white/10 w-fit px-4 py-1 rounded-full text-xs font-bold uppercase tracking-widest">The Comfort Club</div>
+            <h2 className="text-4xl lg:text-5xl font-bold leading-tight">Priority Care for <span className="text-destructive underline">$250/year</span>.</h2>
+            <p className="text-xl opacity-90 leading-relaxed">Priority scheduling, seasonal tune-ups, and 15% discounts that pay for themselves—especially during peak season rushes.</p>
+            <Button asChild size="lg" className="bg-white text-primary hover:bg-white/90">
+              <Link to="/maintenance-plans">See Membership Benefits</Link>
+            </Button>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            {[
+              { icon: Zap, label: "Bi-Annual Tune-ups" },
+              { icon: Clock, label: "Priority Service" },
+              { icon: Percent, label: "Repair Discounts" },
+              { icon: ShieldCheck, label: "Warranty Safety" },
+            ].map((v, i) => (
+              <div key={i} className="bg-white/10 p-6 rounded-3xl border border-white/10 text-center space-y-2">
+                <v.icon className="h-8 w-8 text-destructive mx-auto" />
+                <div className="text-sm font-bold">{v.label}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
       {/* FINAL CONVERSION */}
       <section className="bg-primary/5 rounded-[3rem] p-12 lg:p-20 text-center relative overflow-hidden">
-        <div className="absolute inset-0 hvac-pattern-blueprint" />
+        <div className="absolute inset-0 hvac-pattern-blueprint opacity-10" />
         <div className="relative z-10 space-y-8">
           <h2 className="text-4xl lg:text-6xl font-bold text-primary max-w-4xl mx-auto leading-tight">Ready for reliable comfort?</h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Call now or request service online—our team will confirm details and get you scheduled within minutes.
-          </p>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">Call now or request service online—our team will confirm details and get you scheduled within minutes.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="hvac-cta-red text-lg h-16 px-12">
               <a href="tel:###-###-####">Call Now</a>
@@ -188,15 +264,5 @@ export function HomePage() {
         </div>
       </section>
     </div>
-  );
-}
-function ShieldCheck(props: any) {
-  return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/><path d="m9 12 2 2 4-4"/></svg>
-  );
-}
-function ChevronRight(props: any) {
-  return (
-    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
   );
 }

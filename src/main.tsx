@@ -21,6 +21,9 @@ import { AboutPage } from '@/pages/AboutPage';
 import { ServiceAreasPage } from '@/pages/ServiceAreasPage';
 import { ContactPage } from '@/pages/ContactPage';
 import { PlaceholderPage } from '@/pages/PlaceholderPage';
+import { TroubleshootingPage } from '@/pages/TroubleshootingPage';
+import { FAQPage } from '@/pages/FAQPage';
+import { MaintenancePlansPage } from '@/pages/MaintenancePlansPage';
 const queryClient = new QueryClient();
 const router = createBrowserRouter([
   {
@@ -32,9 +35,9 @@ const router = createBrowserRouter([
       { path: "services", element: <ServicesHub /> },
       { path: "services/:category", element: <CategoryHub /> },
       { path: "services/:category/:detail", element: <ServiceDetail /> },
-      { path: "maintenance-plans", element: <PlaceholderPage title="Maintenance Plans" /> },
-      { path: "troubleshooting", element: <PlaceholderPage title="Troubleshooting Guide" /> },
-      { path: "faq", element: <PlaceholderPage title="Frequently Asked Questions" /> },
+      { path: "maintenance-plans", element: <MaintenancePlansPage /> },
+      { path: "troubleshooting", element: <TroubleshootingPage /> },
+      { path: "faq", element: <FAQPage /> },
       { path: "about", element: <AboutPage /> },
       { path: "service-areas", element: <ServiceAreasPage /> },
       { path: "reviews", element: <ReviewsPage /> },

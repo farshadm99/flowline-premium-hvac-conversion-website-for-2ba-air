@@ -8,7 +8,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { BreadcrumbNav } from '@/components/site/BreadcrumbNav';
 import { updateSEO } from '@/lib/seo';
 import { FAQ_DATA } from '@/data/site-content';
-import { BUSINESS_CONFIG } from '@/data/business-config';
 export function FAQPage() {
   useEffect(() => {
     const faqSchema = {
@@ -24,8 +23,8 @@ export function FAQPage() {
       })))
     };
     updateSEO({
-      title: `HVAC Frequently Asked Questions | ${BUSINESS_CONFIG.name}`,
-      description: `Find clear answers on HVAC pricing, repairs, maintenance plans, and emergency services in ${BUSINESS_CONFIG.serviceArea.summary}.`,
+      title: "HVAC Frequently Asked Questions | 2ba Air",
+      description: "Find clear answers on HVAC pricing, repairs, maintenance plans, and emergency services in [Service Area].",
       jsonLd: faqSchema
     });
   }, []);
@@ -82,7 +81,7 @@ export function FAQPage() {
               <Link to="/contact">Request Service</Link>
             </Button>
             <Button asChild size="lg" variant="outline" className="border-primary text-primary">
-              <a href={BUSINESS_CONFIG.phoneRaw}><Phone className="mr-2 h-4 w-4" /> {BUSINESS_CONFIG.phone}</a>
+              <a href="tel:###-###-####"><Phone className="mr-2 h-4 w-4" /> (###) ###-####</a>
             </Button>
           </div>
         </section>
