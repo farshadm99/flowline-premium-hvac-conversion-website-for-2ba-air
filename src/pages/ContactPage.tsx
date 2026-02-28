@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Phone, Clock, Mail, CheckCircle2, ShieldAlert, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { Phone, Clock, Mail, CheckCircle2, ShieldAlert, AlertTriangle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -29,13 +29,15 @@ const contactSchema = z.object({
 });
 type ContactFormData = z.infer<typeof contactSchema>;
 export function ContactPage() {
-  const [isEmergency, setIsEmergency] = useState(false);
+  const [searchParams] = useSearchParams();
+  const intentParam = searchParams.get('intent');
+  const [isEmergency, setIsEmergency] = useState(intentParam === 'emergency');
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { register, handleSubmit, formState: { errors }, setValue } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      serviceType: "Cooling",
+      serviceType: intentParam === 'financing' ? 'Financing' : "Cooling",
       emergencyType: "No AC",
     }
   });
@@ -47,15 +49,16 @@ export function ContactPage() {
         : `Request HVAC service or a free estimate online. Our team will reach out shortly to confirm scheduling in ${BUSINESS_CONFIG.serviceArea.cities[0]}.`,
     });
   }, [isEmergency]);
-  const onSubmit = async (data: ContactFormData) => {
+  const onSubmit = async (data: ContactFormData, submitIntent?: string) => {
     setIsLoading(true);
     try {
+      const finalIntent = isEmergency ? 'emergency' : (submitIntent || intentParam || 'service');
       await api('/api/leads', {
         method: 'POST',
         body: JSON.stringify({
           ...data,
           emergency: isEmergency,
-          intent: isEmergency ? 'emergency' : 'service'
+          intent: finalIntent
         })
       });
       setIsSubmitted(true);
@@ -86,7 +89,6 @@ export function ContactPage() {
   return (
     <div className={cn("transition-colors duration-500 rounded-[3rem] p-4 sm:p-8 lg:p-12 min-h-[800px]", isEmergency ? "bg-destructive/5" : "bg-primary/5")}>
       <div className="max-w-6xl mx-auto space-y-10">
-        {/* PROMINENT EMERGENCY TOGGLE */}
         <div className="flex flex-col items-center space-y-4">
           <div className={cn(
             "w-full max-w-xl p-1 rounded-2xl border-2 transition-all flex items-center gap-4 px-6 py-4 cursor-pointer select-none",
@@ -101,8 +103,8 @@ export function ContactPage() {
               <div className="text-sm font-bold uppercase tracking-widest opacity-80">Urgency Level</div>
               <div className="text-lg font-black">{isEmergency ? "EMERGENCY MODE ACTIVE" : "Switch to Emergency Mode?"}</div>
             </div>
-            <Switch 
-              checked={isEmergency} 
+            <Switch
+              checked={isEmergency}
               onCheckedChange={setIsEmergency}
               className="data-[state=checked]:bg-white data-[state=checked]:text-destructive"
             />
@@ -110,16 +112,17 @@ export function ContactPage() {
           <p className="text-xs font-bold text-muted-foreground uppercase tracking-tighter">Toggle for 24/7 urgent repair dispatch</p>
         </div>
         <div className="grid lg:grid-cols-5 gap-12 items-start">
-          {/* SIDE INFO */}
           <div className="lg:col-span-2 space-y-8 pt-6">
             <div className="space-y-4">
               <h1 className={cn("text-4xl lg:text-5xl font-display font-extrabold tracking-tight leading-[1.1]", isEmergency ? "text-destructive" : "text-primary")}>
-                {isEmergency ? "Emergency Dispatch" : "Request Service"}
+                {isEmergency ? "Emergency Dispatch" : (intentParam === 'estimate' ? "Free Estimate Request" : "Request Service")}
               </h1>
               <p className="text-muted-foreground text-lg leading-relaxed">
                 {isEmergency
                   ? "Our emergency technicians are on standby 24/7. Use the form below for fast intake or call now for immediate dispatch."
-                  : "Tell us what’s going on—our team will reach out shortly to confirm details and scheduling."
+                  : (intentParam === 'financing' 
+                      ? "Interested in financing? Tell us about your project and we will walk you through the options." 
+                      : "Tell us what’s going on—our team will reach out shortly to confirm details and scheduling.")
                 }
               </p>
             </div>
@@ -135,29 +138,11 @@ export function ContactPage() {
                   {BUSINESS_CONFIG.phone}
                 </a>
               </div>
-              {!isEmergency && (
-                <div className="grid grid-cols-1 gap-4">
-                  <div className="flex gap-4 items-start p-4 bg-white/50 rounded-2xl border">
-                    <Mail className="h-5 w-5 text-primary shrink-0 mt-1" />
-                    <div>
-                      <div className="font-bold text-primary">Email Us</div>
-                      <div className="text-sm text-muted-foreground">{BUSINESS_CONFIG.email}</div>
-                    </div>
-                  </div>
-                  <div className="flex gap-4 items-start p-4 bg-white/50 rounded-2xl border">
-                    <Clock className="h-5 w-5 text-primary shrink-0 mt-1" />
-                    <div>
-                      <div className="font-bold text-primary">Office Hours</div>
-                      <div className="text-sm text-muted-foreground">{BUSINESS_CONFIG.hours}</div>
-                    </div>
-                  </div>
-                </div>
-              )}
             </div>
             <AnimatePresence>
               {isEmergency && (
-                <motion.div 
-                  initial={{ opacity: 0, y: 20 }} 
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 20 }}
                   className="p-8 bg-destructive text-destructive-foreground rounded-[2rem] space-y-4 shadow-xl relative overflow-hidden"
@@ -172,16 +157,10 @@ export function ContactPage() {
                   <p className="text-lg leading-snug font-bold">
                     If you smell gas, leave the home IMMEDIATELY and call 911 or your utility provider.
                   </p>
-                  <ul className="text-sm space-y-2 opacity-90 font-medium">
-                    <li>�� Do not operate light switches</li>
-                    <li>• Do not use any appliances</li>
-                    <li>• Do not search for the leak yourself</li>
-                  </ul>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
-          {/* FORM CARD */}
           <Card className={cn(
             "lg:col-span-3 border-none shadow-2xl rounded-[3rem] overflow-hidden transition-all duration-500",
             isEmergency ? "ring-4 ring-destructive" : ""
@@ -193,7 +172,7 @@ export function ContactPage() {
               </div>
             )}
             <CardContent className="p-8 sm:p-12 space-y-8">
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={handleSubmit((data) => onSubmit(data))} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label className={isEmergency ? "text-destructive font-bold" : ""}>Your Name*</Label>
@@ -238,7 +217,7 @@ export function ContactPage() {
                   <div className="grid sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <Label>Service Category</Label>
-                      <Select onValueChange={(val) => setValue('serviceType', val)} defaultValue="Cooling">
+                      <Select onValueChange={(val) => setValue('serviceType', val)} defaultValue={intentParam === 'financing' ? 'Financing' : 'Cooling'}>
                         <SelectTrigger className="h-12 rounded-xl">
                           <SelectValue placeholder="Select service" />
                         </SelectTrigger>
@@ -247,7 +226,7 @@ export function ContactPage() {
                           <SelectItem value="Heating">Heating / Furnace</SelectItem>
                           <SelectItem value="Heat Pump">Heat Pump</SelectItem>
                           <SelectItem value="IAQ">Air Quality</SelectItem>
-                          <SelectItem value="Ductwork">Ductwork</SelectItem>
+                          <SelectItem value="Financing">Financing Inquiry</SelectItem>
                           <SelectItem value="Commercial">Commercial</SelectItem>
                         </SelectContent>
                       </Select>
@@ -284,7 +263,14 @@ export function ContactPage() {
                       <Button type="submit" disabled={isLoading} size="lg" className="hvac-cta-navy w-full h-16 text-xl font-bold">
                         {isLoading ? "Sending..." : "Request Fast Service"}
                       </Button>
-                      <Button variant="outline" type="submit" disabled={isLoading} size="lg" className="w-full h-14 border-primary text-primary font-bold rounded-xl">
+                      <Button 
+                        variant="outline" 
+                        type="button" 
+                        onClick={handleSubmit((data) => onSubmit(data, 'estimate'))} 
+                        disabled={isLoading} 
+                        size="lg" 
+                        className="w-full h-14 border-primary text-primary font-bold rounded-xl"
+                      >
                         Request Free Estimate
                       </Button>
                     </div>

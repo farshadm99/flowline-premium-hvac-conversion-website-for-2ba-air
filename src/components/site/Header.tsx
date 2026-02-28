@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, Phone, Wind, Thermometer, Zap, Factory, Waves, ChevronRight } from 'lucide-react';
+import { Menu, Phone, Wind, Thermometer, Zap, Factory, Waves, ChevronRight, User } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,6 +19,13 @@ import {
   SheetTitle,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 import { BUSINESS_CONFIG } from '@/data/business-config';
 const LOGO_URL = "https://i.ibb.co/GvQ24WkQ/2BA-Logo.png";
 const serviceCategories = [
@@ -109,7 +116,7 @@ export function Header() {
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                   <NavLink to="/troubleshooting" className={({isActive}) => cn(navigationMenuTriggerStyle(), "font-semibold", isActive && "text-primary")}>
-                    Maintenance Guides
+                    Guides
                   </NavLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
@@ -118,9 +125,18 @@ export function Header() {
                   </NavLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavLink to="/service-areas" className={({isActive}) => cn(navigationMenuTriggerStyle(), "font-semibold", isActive && "text-primary")}>
-                    Service Area
-                  </NavLink>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <div className={cn(navigationMenuTriggerStyle(), "font-semibold opacity-50 cursor-not-allowed flex items-center gap-1.5")}>
+                          <User className="h-4 w-4" /> Account
+                        </div>
+                      </TooltipTrigger>
+                      <TooltipContent>
+                        <p>Portal launching soon</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
@@ -163,9 +179,11 @@ export function Header() {
                     </div>
                     <Link to="/troubleshooting" className="text-xl font-bold hover:text-primary">Maintenance Guides</Link>
                     <Link to="/maintenance-plans" className="text-xl font-bold hover:text-primary">Membership</Link>
+                    <Link to="/account" className="text-xl font-bold text-muted-foreground flex items-center justify-between">
+                      Account <Badge variant="secondary" className="text-[10px]">Soon</Badge>
+                    </Link>
                     <Link to="/service-areas" className="text-xl font-bold hover:text-primary">Service Area</Link>
                     <Link to="/reviews" className="text-xl font-bold hover:text-primary">Reviews</Link>
-                    <Link to="/about" className="text-xl font-bold hover:text-primary">About Us</Link>
                   </nav>
                 </div>
                 <div className="p-6 border-t bg-muted/30 space-y-4">

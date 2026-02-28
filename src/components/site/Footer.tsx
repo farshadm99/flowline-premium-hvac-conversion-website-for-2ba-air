@@ -59,12 +59,12 @@ export function Footer() {
           <div className="space-y-6">
             <h3 className="text-xl font-bold tracking-tight uppercase text-white">Expert Services</h3>
             <ul className="space-y-3 text-base text-primary-foreground/70 font-semibold">
-              <li><Link to="/services/cooling" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Air Conditioning</Link></li>
+              <li><Link to="/services/cooling" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Cooling & AC</Link></li>
               <li><Link to="/services/heating" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Heating & Furnaces</Link></li>
               <li><Link to="/services/heat-pumps" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Heat Pump Systems</Link></li>
-              <li><Link to="/services/indoor-air-quality" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Indoor Air Quality</Link></li>
-              <li><Link to="/maintenance-plans" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Membership Club</Link></li>
-              <li><Link to="/troubleshooting" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Troubleshooting</Link></li>
+              <li><Link to="/services/ductwork" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Ductwork & IAQ</Link></li>
+              <li><Link to="/services/commercial" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Light Commercial</Link></li>
+              <li><Link to="/maintenance-plans" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Comfort Club</Link></li>
             </ul>
           </div>
           {/* Service Areas */}
@@ -92,9 +92,9 @@ export function Footer() {
           <p>© {new Date().getFullYear()} {BUSINESS_CONFIG.name.toUpperCase()}. ALL RIGHTS RESERVED.</p>
           <div className="flex flex-wrap justify-center gap-x-10 gap-y-4">
             <Link to="/faq" className="hover:text-white transition-colors">FAQ</Link>
-            <Link to="/troubleshooting" className="hover:text-white transition-colors">MAINTENANCE</Link>
+            <Link to="/troubleshooting" className="hover:text-white transition-colors">TROUBLESHOOTING</Link>
             <Link to="/about" className="hover:text-white transition-colors">ABOUT US</Link>
-            <Link to="/contact" className="hover:text-white transition-colors">PRIVACY</Link>
+            <Link to="/contact" className="hover:text-white transition-colors">BOOK SERVICE</Link>
           </div>
         </div>
       </div>
