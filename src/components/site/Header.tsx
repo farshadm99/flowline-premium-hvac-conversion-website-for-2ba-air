@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, Phone, UserCircle } from 'lucide-react';
+import { Menu, Phone, UserCircle, ChevronRight, Wind, Thermometer, Zap, Waves, Settings, Factory } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -10,6 +10,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from '@/components/ui/navigation-menu';
 import {
   Sheet,
@@ -21,118 +22,152 @@ import {
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { BUSINESS_CONFIG } from '@/data/business-config';
 const LOGO_URL = "https://i.ibb.co/GvQ24WkQ/2BA-Logo.png";
-const services = [
-  { title: "Cooling", href: "/services/cooling", description: "AC Repair, Installation & Maintenance" },
-  { title: "Heating", href: "/services/heating", description: "Furnace & Heating Solutions" },
-  { title: "Heat Pumps", href: "/services/heat-pumps", description: "Efficient Electric Heating & Cooling" },
-  { title: "Air Quality", href: "/services/indoor-air-quality", description: "Purifiers, UV Lights & Filtration" },
-  { title: "Ductwork", href: "/services/ductwork", description: "Repair, Sealing & Balancing" },
-  { title: "Commercial", href: "/services/commercial", description: "Light Commercial HVAC Services" },
+const serviceGroups = [
+  { 
+    title: "Cooling", 
+    href: "/services/cooling", 
+    icon: Wind,
+    description: "AC repair, installation, and mini-splits.",
+    items: ["AC Repair", "AC Installation", "AC Maintenance", "Mini-Splits"]
+  },
+  { 
+    title: "Heating", 
+    href: "/services/heating", 
+    icon: Thermometer,
+    description: "Furnaces, boilers, and heating tune-ups.",
+    items: ["Furnace Repair", "Furnace Installation", "Maintenance", "Boilers"]
+  },
+  { 
+    title: "Heat Pumps", 
+    href: "/services/heat-pumps", 
+    icon: Zap,
+    description: "Hybrid and all-electric efficiency.",
+    items: ["Repair", "Installation", "Maintenance"]
+  },
+  { 
+    title: "Specialty", 
+    href: "/services", 
+    icon: Factory,
+    description: "Ductwork, IAQ, and Commercial.",
+    items: ["Duct Sealing", "Air Quality", "Commercial HVAC"]
+  },
 ];
 export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-20 items-center justify-between gap-4">
+        <div className="flex h-24 items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src={LOGO_URL} alt={`${BUSINESS_CONFIG.name} Logo`} className="h-12 w-auto object-contain" />
+            <img src={LOGO_URL} alt={`${BUSINESS_CONFIG.name} Logo`} className="h-14 w-auto object-contain" />
           </Link>
-          <div className="hidden lg:flex items-center gap-8">
+          <div className="hidden lg:flex items-center gap-2 flex-1 justify-center">
             <NavigationMenu>
               <NavigationMenuList>
                 <NavigationMenuItem>
-                  <NavigationMenuTrigger>Services</NavigationMenuTrigger>
+                  <NavLink to="/" className={({isActive}) => cn(navigationMenuTriggerStyle(), "font-semibold", isActive && "text-primary")}>
+                    Home
+                  </NavLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuTrigger className="font-semibold">Services</NavigationMenuTrigger>
                   <NavigationMenuContent>
-                    <ul className="grid w-[600px] gap-3 p-4 md:grid-cols-2">
-                      {services.map((service) => (
-                        <li key={service.title}>
+                    <div className="grid w-[800px] gap-6 p-6 lg:grid-cols-2">
+                      {serviceGroups.map((group) => (
+                        <div key={group.title} className="space-y-4">
                           <NavigationMenuLink asChild>
                             <Link
-                              to={service.href}
-                              className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                              to={group.href}
+                              className="flex items-start gap-3 select-none rounded-xl p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground"
                             >
-                              <div className="text-sm font-semibold leading-none">{service.title}</div>
-                              <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                                {service.description}
-                              </p>
+                              <div className="p-2 bg-primary/5 rounded-lg">
+                                <group.icon className="h-5 w-5 text-primary" />
+                              </div>
+                              <div className="space-y-1">
+                                <div className="text-sm font-bold leading-none">{group.title}</div>
+                                <p className="text-xs leading-snug text-muted-foreground">
+                                  {group.description}
+                                </p>
+                              </div>
                             </Link>
                           </NavigationMenuLink>
-                        </li>
+                          <ul className="grid grid-cols-2 gap-2 pl-12">
+                            {group.items.map(item => (
+                              <li key={item} className="text-xs font-medium text-muted-foreground hover:text-primary transition-colors cursor-pointer">
+                                {item}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       ))}
-                    </ul>
+                    </div>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavLink to="/maintenance-plans" className={({isActive}) => cn("text-sm font-medium transition-colors hover:text-primary", isActive && "text-primary font-semibold")}>
-                    Maintenance
+                  <NavLink to="/troubleshooting" className={({isActive}) => cn(navigationMenuTriggerStyle(), "font-semibold", isActive && "text-primary")}>
+                    Maintenance Guides
                   </NavLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavLink to="/troubleshooting" className={({isActive}) => cn("text-sm font-medium transition-colors hover:text-primary", isActive && "text-primary font-semibold")}>
-                    Troubleshooting
+                  <NavLink to="/maintenance-plans" className={({isActive}) => cn(navigationMenuTriggerStyle(), "font-semibold", isActive && "text-primary")}>
+                    Membership
                   </NavLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavLink to="/faq" className={({isActive}) => cn("text-sm font-medium transition-colors hover:text-primary", isActive && "text-primary font-semibold")}>
-                    FAQ
+                  <NavLink to="/service-areas" className={({isActive}) => cn(navigationMenuTriggerStyle(), "font-semibold", isActive && "text-primary")}>
+                    Service Area
                   </NavLink>
                 </NavigationMenuItem>
               </NavigationMenuList>
             </NavigationMenu>
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Link to="/account" className="flex items-center gap-1.5 text-sm font-medium text-primary/80 hover:text-primary transition-colors">
-                    <UserCircle className="h-5 w-5" />
-                    Account
-                  </Link>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Customer portal coming soon!</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
           </div>
-          <div className="flex items-center gap-4">
-            <Button asChild variant="outline" className="hidden sm:flex border-primary text-primary hover:bg-primary/5">
-              <a href={BUSINESS_CONFIG.phoneRaw}>
-                <Phone className="mr-2 h-4 w-4" />
+          <div className="flex items-center gap-3">
+            <div className="hidden xl:flex flex-col items-end mr-2">
+              <span className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">Immediate Dispatch</span>
+              <a href={BUSINESS_CONFIG.phoneRaw} className="text-lg font-black text-primary hover:text-destructive transition-colors">
                 {BUSINESS_CONFIG.phone}
               </a>
-            </Button>
-            <Button asChild className="hvac-cta-red hidden md:flex">
-              <Link to="/contact">Request Service</Link>
+            </div>
+            <Button asChild size="lg" className="hvac-cta-red hidden md:flex h-14 px-8 text-lg font-black tracking-tight">
+              <Link to="/contact">REQUEST SERVICE</Link>
             </Button>
             <Sheet>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="lg:hidden">
-                  <Menu className="h-6 w-6" />
+                <Button variant="ghost" size="icon" className="lg:hidden h-12 w-12">
+                  <Menu className="h-8 w-8" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-                <SheetHeader>
-                  <SheetTitle className="text-left">Menu</SheetTitle>
+              <SheetContent side="right" className="w-[300px] sm:w-[400px] p-0 flex flex-col">
+                <SheetHeader className="p-6 border-b">
+                  <SheetTitle className="text-left flex items-center gap-2">
+                    <img src={LOGO_URL} alt="Logo" className="h-8 w-auto" />
+                  </SheetTitle>
                 </SheetHeader>
-                <nav className="flex flex-col gap-4 mt-8">
-                  <Link to="/" className="text-lg font-semibold hover:text-primary transition-colors">Home</Link>
-                  <div className="space-y-4">
-                    <div className="text-lg font-semibold text-primary">Services</div>
-                    <div className="grid grid-cols-1 gap-2 pl-4">
-                      {services.map(s => (
-                        <Link key={s.href} to={s.href} className="text-sm text-muted-foreground hover:text-primary">{s.title}</Link>
-                      ))}
+                <div className="flex-1 overflow-y-auto p-6">
+                  <nav className="flex flex-col gap-6">
+                    <Link to="/" className="text-xl font-bold hover:text-primary">Home</Link>
+                    <div className="space-y-4">
+                      <div className="text-xs font-black uppercase tracking-widest text-muted-foreground">Services</div>
+                      <div className="grid grid-cols-1 gap-3 pl-4 border-l-2 border-primary/10">
+                        {serviceGroups.map(s => (
+                          <Link key={s.href} to={s.href} className="text-lg font-semibold hover:text-primary">{s.title}</Link>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                  <Link to="/maintenance-plans" className="text-lg font-semibold hover:text-primary transition-colors">Maintenance</Link>
-                  <Link to="/troubleshooting" className="text-lg font-semibold hover:text-primary transition-colors">Troubleshooting</Link>
-                  <Link to="/faq" className="text-lg font-semibold hover:text-primary transition-colors">FAQ</Link>
-                  <Link to="/reviews" className="text-lg font-semibold hover:text-primary transition-colors">Reviews</Link>
-                  <Link to="/about" className="text-lg font-semibold hover:text-primary transition-colors">About</Link>
-                  <Link to="/account" className="text-lg font-semibold text-primary/60 italic">Portal (Preview)</Link>
-                  <div className="h-px w-full bg-border my-2" />
-                  <Link to="/contact" className="text-lg font-bold text-destructive">Request Service</Link>
-                  <a href={BUSINESS_CONFIG.phoneRaw} className="flex items-center gap-2 text-lg font-semibold text-primary"><Phone className="h-5 w-5" />{BUSINESS_CONFIG.phone}</a>
-                </nav>
+                    <Link to="/troubleshooting" className="text-xl font-bold hover:text-primary">Maintenance Guides</Link>
+                    <Link to="/maintenance-plans" className="text-xl font-bold hover:text-primary">Membership</Link>
+                    <Link to="/service-areas" className="text-xl font-bold hover:text-primary">Service Area</Link>
+                    <Link to="/reviews" className="text-xl font-bold hover:text-primary">Reviews</Link>
+                    <Link to="/about" className="text-xl font-bold hover:text-primary">About Us</Link>
+                  </nav>
+                </div>
+                <div className="p-6 border-t bg-muted/30 space-y-4">
+                  <Button asChild className="hvac-cta-red w-full h-14 text-lg font-bold">
+                    <Link to="/contact">Request Service</Link>
+                  </Button>
+                  <Button asChild variant="outline" className="w-full h-14 border-primary text-primary font-bold">
+                    <a href={BUSINESS_CONFIG.phoneRaw}><Phone className="mr-2 h-4 w-4" /> {BUSINESS_CONFIG.phone}</a>
+                  </Button>
+                </div>
               </SheetContent>
             </Sheet>
           </div>

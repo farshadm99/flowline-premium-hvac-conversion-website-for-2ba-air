@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Phone, Clock, Mail, CheckCircle2, ShieldAlert } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Phone, Clock, Mail, CheckCircle2, ShieldAlert, AlertTriangle, ArrowLeft } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -40,9 +41,9 @@ export function ContactPage() {
   });
   useEffect(() => {
     updateSEO({
-      title: isEmergency ? `Emergency Service Request | ${BUSINESS_CONFIG.name}` : `Contact ${BUSINESS_CONFIG.name} | Request HVAC Service`,
+      title: isEmergency ? `EMERGENCY HVAC Help | ${BUSINESS_CONFIG.name}` : `Contact ${BUSINESS_CONFIG.name} | Request HVAC Service`,
       description: isEmergency
-        ? `Emergency HVAC help needed? Switch to Emergency Mode and call now for fastest response in ${BUSINESS_CONFIG.serviceArea.summary}.`
+        ? `Immediate HVAC help needed? Call ${BUSINESS_CONFIG.phone} now. 24/7 emergency repair available for no heat, no AC, or leaks.`
         : `Request HVAC service or a free estimate online. Our team will reach out shortly to confirm scheduling in ${BUSINESS_CONFIG.serviceArea.cities[0]}.`,
     });
   }, [isEmergency]);
@@ -83,168 +84,216 @@ export function ContactPage() {
     );
   }
   return (
-    <div className={cn("transition-colors duration-500 rounded-[3rem] p-4 sm:p-8 lg:p-12", isEmergency ? "bg-destructive/5" : "bg-primary/5")}>
-      <div className="max-w-5xl mx-auto grid lg:grid-cols-5 gap-12">
-        <div className="lg:col-span-2 space-y-8">
-          <div className="space-y-4">
-            <div className="flex items-center gap-3 mb-2">
-              <Switch checked={isEmergency} onCheckedChange={setIsEmergency} id="emergency-mode" />
-              <Label htmlFor="emergency-mode" className={cn("text-lg font-bold uppercase tracking-tight transition-colors", isEmergency ? "text-destructive" : "text-primary")}>
-                {isEmergency ? "Emergency Mode ON" : "Normal Mode"}
-              </Label>
-            </div>
-            <h1 className={cn("text-4xl font-display font-extrabold tracking-tight", isEmergency ? "text-destructive" : "text-primary")}>
-              {isEmergency ? "Emergency Service Request" : "Request Service or Free Estimate"}
-            </h1>
-            <p className="text-muted-foreground text-lg">
-              {isEmergency
-                ? "Emergency request selected — please call now for fastest response."
-                : "Tell us what��s going on—our team will reach out shortly to confirm details and scheduling."
-              }
-            </p>
-          </div>
-          <div className="space-y-6">
-            <div className="flex gap-4 items-start">
-              <div className={cn("p-3 rounded-xl shrink-0", isEmergency ? "bg-destructive/10" : "bg-primary/10")}>
-                <Phone className={cn("h-6 w-6", isEmergency ? "text-destructive" : "text-primary")} />
-              </div>
-              <div>
-                <div className="font-bold text-lg text-primary">Call Now</div>
-                <a href={BUSINESS_CONFIG.phoneRaw} className="text-xl font-bold text-destructive hover:underline">{BUSINESS_CONFIG.phone}</a>
-              </div>
-            </div>
-            {!isEmergency && (
-              <>
-                <div className="flex gap-4 items-start">
-                  <div className="p-3 bg-primary/10 rounded-xl shrink-0">
-                    <Mail className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-lg text-primary">Email Us</div>
-                    <div className="text-muted-foreground">{BUSINESS_CONFIG.email}</div>
-                  </div>
-                </div>
-                <div className="flex gap-4 items-start">
-                  <div className="p-3 bg-primary/10 rounded-xl shrink-0">
-                    <Clock className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-bold text-lg text-primary">Office Hours</div>
-                    <div className="text-muted-foreground">{BUSINESS_CONFIG.hours}</div>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-          {isEmergency && (
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="p-6 bg-destructive text-destructive-foreground rounded-3xl space-y-4 shadow-xl">
-              <ShieldAlert className="h-10 w-10" />
-              <h3 className="text-xl font-bold">Safety Warning</h3>
-              <p className="text-sm leading-relaxed font-medium">
-                If you smell gas, leave the home immediately and call your gas utility provider or emergency services. Do not operate switches or appliances.
-              </p>
-            </motion.div>
+    <div className={cn("transition-colors duration-500 rounded-[3rem] p-4 sm:p-8 lg:p-12 min-h-[800px]", isEmergency ? "bg-destructive/5" : "bg-primary/5")}>
+      <div className="max-w-6xl mx-auto space-y-10">
+        {/* PROMINENT EMERGENCY TOGGLE */}
+        <div className="flex flex-col items-center space-y-4">
+          <div className={cn(
+            "w-full max-w-xl p-1 rounded-2xl border-2 transition-all flex items-center gap-4 px-6 py-4 cursor-pointer select-none",
+            isEmergency ? "bg-destructive border-destructive text-white shadow-destructive/20 shadow-xl" : "bg-white border-primary/10 text-primary"
           )}
+          onClick={() => setIsEmergency(!isEmergency)}
+          >
+            <div className={cn("p-2 rounded-lg", isEmergency ? "bg-white/20" : "bg-destructive/10")}>
+              <AlertTriangle className={cn("h-6 w-6", isEmergency ? "text-white" : "text-destructive animate-pulse")} />
+            </div>
+            <div className="flex-1 text-left">
+              <div className="text-sm font-bold uppercase tracking-widest opacity-80">Urgency Level</div>
+              <div className="text-lg font-black">{isEmergency ? "EMERGENCY MODE ACTIVE" : "Switch to Emergency Mode?"}</div>
+            </div>
+            <Switch 
+              checked={isEmergency} 
+              onCheckedChange={setIsEmergency}
+              className="data-[state=checked]:bg-white data-[state=checked]:text-destructive"
+            />
+          </div>
+          <p className="text-xs font-bold text-muted-foreground uppercase tracking-tighter">Toggle for 24/7 urgent repair dispatch</p>
         </div>
-        <Card className="lg:col-span-3 border-none shadow-2xl rounded-3xl overflow-hidden">
-          <CardContent className="p-8 space-y-6">
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <div className="grid sm:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <Label>Your Name*</Label>
-                  <Input {...register('name')} placeholder="John Doe" className={errors.name ? 'border-destructive' : ''} />
-                  {errors.name && <p className="text-xs text-destructive">{errors.name.message}</p>}
+        <div className="grid lg:grid-cols-5 gap-12 items-start">
+          {/* SIDE INFO */}
+          <div className="lg:col-span-2 space-y-8 pt-6">
+            <div className="space-y-4">
+              <h1 className={cn("text-4xl lg:text-5xl font-display font-extrabold tracking-tight leading-[1.1]", isEmergency ? "text-destructive" : "text-primary")}>
+                {isEmergency ? "Emergency Dispatch" : "Request Service"}
+              </h1>
+              <p className="text-muted-foreground text-lg leading-relaxed">
+                {isEmergency
+                  ? "Our emergency technicians are on standby 24/7. Use the form below for fast intake or call now for immediate dispatch."
+                  : "Tell us what’s going on—our team will reach out shortly to confirm details and scheduling."
+                }
+              </p>
+            </div>
+            <div className="space-y-6">
+              <div className={cn("p-6 rounded-3xl border transition-all", isEmergency ? "bg-white border-destructive shadow-lg" : "bg-white border-primary/10")}>
+                <div className="flex gap-4 items-center mb-2">
+                  <div className={cn("p-3 rounded-xl", isEmergency ? "bg-destructive/10" : "bg-primary/10")}>
+                    <Phone className={cn("h-6 w-6", isEmergency ? "text-destructive" : "text-primary")} />
+                  </div>
+                  <div className="font-bold text-lg text-primary">Fastest Response</div>
                 </div>
-                <div className="space-y-2">
-                  <Label>Phone Number*</Label>
-                  <Input {...register('phone')} placeholder="(###) ###-####" className={errors.phone ? 'border-destructive' : ''} />
-                  {errors.phone && <p className="text-xs text-destructive">{errors.phone.message}</p>}
-                </div>
+                <a href={BUSINESS_CONFIG.phoneRaw} className={cn("text-3xl font-black block mt-2 hover:underline", isEmergency ? "text-destructive" : "text-primary")}>
+                  {BUSINESS_CONFIG.phone}
+                </a>
               </div>
               {!isEmergency && (
-                <div className="space-y-2">
-                  <Label>Email Address</Label>
-                  <Input {...register('email')} placeholder="john@example.com" />
+                <div className="grid grid-cols-1 gap-4">
+                  <div className="flex gap-4 items-start p-4 bg-white/50 rounded-2xl border">
+                    <Mail className="h-5 w-5 text-primary shrink-0 mt-1" />
+                    <div>
+                      <div className="font-bold text-primary">Email Us</div>
+                      <div className="text-sm text-muted-foreground">{BUSINESS_CONFIG.email}</div>
+                    </div>
+                  </div>
+                  <div className="flex gap-4 items-start p-4 bg-white/50 rounded-2xl border">
+                    <Clock className="h-5 w-5 text-primary shrink-0 mt-1" />
+                    <div>
+                      <div className="font-bold text-primary">Office Hours</div>
+                      <div className="text-sm text-muted-foreground">{BUSINESS_CONFIG.hours}</div>
+                    </div>
+                  </div>
                 </div>
               )}
-              <div className="space-y-2">
-                <Label>Service Address*</Label>
-                <Input {...register('address')} placeholder="123 Comfort St, City, State ZIP" className={errors.address ? 'border-destructive' : ''} />
-                {errors.address && <p className="text-xs text-destructive">{errors.address.message}</p>}
+            </div>
+            <AnimatePresence>
+              {isEmergency && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }} 
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 20 }}
+                  className="p-8 bg-destructive text-destructive-foreground rounded-[2rem] space-y-4 shadow-xl relative overflow-hidden"
+                >
+                  <div className="absolute top-0 right-0 -mr-4 -mt-4 opacity-10">
+                    <ShieldAlert className="h-32 w-32" />
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <ShieldAlert className="h-8 w-8" />
+                    <h3 className="text-2xl font-black uppercase tracking-tighter">Gas Smell Safety</h3>
+                  </div>
+                  <p className="text-lg leading-snug font-bold">
+                    If you smell gas, leave the home IMMEDIATELY and call 911 or your utility provider.
+                  </p>
+                  <ul className="text-sm space-y-2 opacity-90 font-medium">
+                    <li>�� Do not operate light switches</li>
+                    <li>• Do not use any appliances</li>
+                    <li>• Do not search for the leak yourself</li>
+                  </ul>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+          {/* FORM CARD */}
+          <Card className={cn(
+            "lg:col-span-3 border-none shadow-2xl rounded-[3rem] overflow-hidden transition-all duration-500",
+            isEmergency ? "ring-4 ring-destructive" : ""
+          )}>
+            {isEmergency && (
+              <div className="bg-destructive text-white py-4 px-8 flex justify-between items-center animate-pulse">
+                <span className="font-black text-lg uppercase tracking-widest">EMERGENCY INTAKE ACTIVE</span>
+                <Phone className="h-5 w-5" />
               </div>
-              {isEmergency ? (
-                <div className="space-y-2">
-                  <Label>Emergency Type</Label>
-                  <Select onValueChange={(val) => setValue('emergencyType', val)} defaultValue="No AC">
-                    <SelectTrigger>
-                      <SelectValue placeholder="Select emergency type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="No Heat">No Heat</SelectItem>
-                      <SelectItem value="No AC">No AC</SelectItem>
-                      <SelectItem value="Water Leak">Water Leak</SelectItem>
-                      <SelectItem value="Burning Smell">Burning Smell</SelectItem>
-                      <SelectItem value="Gas Smell">Gas Smell</SelectItem>
-                      <SelectItem value="Other">Other Urgent Issue</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              ) : (
+            )}
+            <CardContent className="p-8 sm:p-12 space-y-8">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <div className="grid sm:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <Label>Service Type</Label>
-                    <Select onValueChange={(val) => setValue('serviceType', val)} defaultValue="Cooling">
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select service" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Cooling">Cooling / AC</SelectItem>
-                        <SelectItem value="Heating">Heating / Furnace</SelectItem>
-                        <SelectItem value="Heat Pump">Heat Pump</SelectItem>
-                        <SelectItem value="IAQ">Air Quality</SelectItem>
-                        <SelectItem value="Ductwork">Ductwork</SelectItem>
-                        <SelectItem value="Commercial">Commercial</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <Label className={isEmergency ? "text-destructive font-bold" : ""}>Your Name*</Label>
+                    <Input {...register('name')} placeholder="John Doe" className={cn("h-12 rounded-xl", errors.name ? 'border-destructive' : '')} />
+                    {errors.name && <p className="text-xs text-destructive font-bold">{errors.name.message}</p>}
                   </div>
                   <div className="space-y-2">
-                    <Label>Preferred Time</Label>
-                    <Select onValueChange={(val) => setValue('preferredTime', val)}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select time of day" />
+                    <Label className={isEmergency ? "text-destructive font-bold" : ""}>Phone Number*</Label>
+                    <Input {...register('phone')} placeholder="(###) ###-####" className={cn("h-12 rounded-xl", errors.phone ? 'border-destructive' : '')} />
+                    {errors.phone && <p className="text-xs text-destructive font-bold">{errors.phone.message}</p>}
+                  </div>
+                </div>
+                {!isEmergency && (
+                  <div className="space-y-2">
+                    <Label>Email Address</Label>
+                    <Input {...register('email')} placeholder="john@example.com" className="h-12 rounded-xl" />
+                  </div>
+                )}
+                <div className="space-y-2">
+                  <Label className={isEmergency ? "text-destructive font-bold" : ""}>Service Address*</Label>
+                  <Input {...register('address')} placeholder="123 Comfort St, City, State ZIP" className={cn("h-12 rounded-xl", errors.address ? 'border-destructive' : '')} />
+                  {errors.address && <p className="text-xs text-destructive font-bold">{errors.address.message}</p>}
+                </div>
+                {isEmergency ? (
+                  <div className="space-y-2">
+                    <Label className="text-destructive font-bold">Emergency Type</Label>
+                    <Select onValueChange={(val) => setValue('emergencyType', val)} defaultValue="No AC">
+                      <SelectTrigger className="h-12 rounded-xl border-destructive/50">
+                        <SelectValue placeholder="Select emergency type" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Morning">Morning (8am-12pm)</SelectItem>
-                        <SelectItem value="Afternoon">Afternoon (12pm-4pm)</SelectItem>
-                        <SelectItem value="Evening">Evening (4pm-6pm)</SelectItem>
+                        <SelectItem value="No Heat">No Heat (Furnace Failure)</SelectItem>
+                        <SelectItem value="No AC">No AC (Extreme Heat)</SelectItem>
+                        <SelectItem value="Water Leak">Major Water Leak</SelectItem>
+                        <SelectItem value="Burning Smell">Burning / Electrical Smell</SelectItem>
+                        <SelectItem value="Gas Smell">Gas Smell (Evacuate First!)</SelectItem>
+                        <SelectItem value="Other">Other Urgent Issue</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                </div>
-              )}
-              <div className="space-y-2">
-                <Label>{isEmergency ? "Brief Message (Optional)" : "How can we help?"}</Label>
-                <Textarea {...register('message')} placeholder="Tell us more about the issue..." className="min-h-[100px]" />
-              </div>
-              <div className="flex flex-col gap-4">
-                {isEmergency ? (
-                  <Button asChild size="lg" className="hvac-cta-red w-full h-16 text-xl">
-                    <a href={BUSINESS_CONFIG.phoneRaw}>CALL NOW (EMERGENCY)</a>
-                  </Button>
                 ) : (
-                  <Button type="submit" disabled={isLoading} size="lg" className="hvac-cta-navy w-full h-16 text-xl">
-                    {isLoading ? "Sending..." : "Request Service"}
-                  </Button>
+                  <div className="grid sm:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <Label>Service Category</Label>
+                      <Select onValueChange={(val) => setValue('serviceType', val)} defaultValue="Cooling">
+                        <SelectTrigger className="h-12 rounded-xl">
+                          <SelectValue placeholder="Select service" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Cooling">Cooling / AC</SelectItem>
+                          <SelectItem value="Heating">Heating / Furnace</SelectItem>
+                          <SelectItem value="Heat Pump">Heat Pump</SelectItem>
+                          <SelectItem value="IAQ">Air Quality</SelectItem>
+                          <SelectItem value="Ductwork">Ductwork</SelectItem>
+                          <SelectItem value="Commercial">Commercial</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label>Preferred Time</Label>
+                      <Select onValueChange={(val) => setValue('preferredTime', val)}>
+                        <SelectTrigger className="h-12 rounded-xl">
+                          <SelectValue placeholder="Select time of day" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Morning">Morning (8am-12pm)</SelectItem>
+                          <SelectItem value="Afternoon">Afternoon (12pm-4pm)</SelectItem>
+                          <SelectItem value="Evening">Evening (4pm-6pm)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
                 )}
-                {!isEmergency && (
-                  <Button variant="outline" type="submit" disabled={isLoading} size="lg" className="w-full h-12 border-primary text-primary">
-                    Free Estimate Request
-                  </Button>
-                )}
-              </div>
-            </form>
-          </CardContent>
-        </Card>
+                <div className="space-y-2">
+                  <Label className={isEmergency ? "text-destructive font-bold" : ""}>{isEmergency ? "Emergency Details (Optional)" : "How can we help?"}</Label>
+                  <Textarea {...register('message')} placeholder="Tell us more about the issue..." className="min-h-[120px] rounded-xl" />
+                </div>
+                <div className="pt-4">
+                  {isEmergency ? (
+                    <div className="space-y-4">
+                      <Button asChild size="lg" className="hvac-cta-red w-full h-16 text-xl font-black">
+                        <a href={BUSINESS_CONFIG.phoneRaw}>CALL NOW (EMERGENCY)</a>
+                      </Button>
+                      <p className="text-center text-destructive font-bold text-sm">Emergency dispatchers are active now.</p>
+                    </div>
+                  ) : (
+                    <div className="flex flex-col gap-4">
+                      <Button type="submit" disabled={isLoading} size="lg" className="hvac-cta-navy w-full h-16 text-xl font-bold">
+                        {isLoading ? "Sending..." : "Request Fast Service"}
+                      </Button>
+                      <Button variant="outline" type="submit" disabled={isLoading} size="lg" className="w-full h-14 border-primary text-primary font-bold rounded-xl">
+                        Request Free Estimate
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </form>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
