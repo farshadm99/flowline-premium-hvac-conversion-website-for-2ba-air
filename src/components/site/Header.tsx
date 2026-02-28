@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, Phone, Wind, Thermometer, Zap, Factory, Waves, ChevronRight, User } from 'lucide-react';
+import { Menu, Phone, Wind, Thermometer, Zap, Factory, Waves, ChevronRight, User, Settings } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -55,17 +55,17 @@ const serviceCategories = [
   },
   {
     title: "Ductwork & IAQ",
-    href: "/services/ductwork",
+    href: "/services/ductwork-iaq",
     icon: Waves,
     description: "Air filtration, humidity control, and precision duct sealing.",
     color: "text-cyan-500",
     bgColor: "bg-cyan-500/10"
   },
   {
-    title: "Commercial",
-    href: "/services/commercial",
-    icon: Factory,
-    description: "Specialized HVAC services for light commercial and retail spaces.",
+    title: "Thermostats",
+    href: "/services/thermostats",
+    icon: Settings,
+    description: "Smart home controls, WiFi setup, and precision HVAC wiring.",
     color: "text-primary",
     bgColor: "bg-primary/10"
   },
@@ -133,7 +133,7 @@ export function Header() {
                         </div>
                       </TooltipTrigger>
                       <TooltipContent>
-                        <p>Portal launching soon</p>
+                        <p>Portal launching Q3 2026</p>
                       </TooltipContent>
                     </Tooltip>
                   </TooltipProvider>

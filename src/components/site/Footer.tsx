@@ -26,7 +26,7 @@ export function Footer() {
               )}
             </Link>
             <p className="text-primary-foreground/70 text-base leading-relaxed max-w-xs font-medium">
-              A service-first HVAC team providing reliable cooling, heating, and air quality solutions across {BUSINESS_CONFIG.serviceArea.summary}.
+              A service-first HVAC team providing reliable cooling, heating, and air quality solutions across the DMV region.
             </p>
             <div className="flex items-center gap-3 text-xs font-black bg-white/10 w-fit px-4 py-2 rounded-full uppercase tracking-[0.1em]">
               <ShieldCheck className="h-4 w-4 text-destructive" />
@@ -62,16 +62,16 @@ export function Footer() {
               <li><Link to="/services/cooling" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Cooling & AC</Link></li>
               <li><Link to="/services/heating" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Heating & Furnaces</Link></li>
               <li><Link to="/services/heat-pumps" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Heat Pump Systems</Link></li>
-              <li><Link to="/services/ductwork" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Ductwork & IAQ</Link></li>
+              <li><Link to="/services/ductwork-iaq" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Ductwork & IAQ</Link></li>
+              <li><Link to="/services/thermostats" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Smart Thermostats</Link></li>
               <li><Link to="/services/commercial" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Light Commercial</Link></li>
-              <li><Link to="/maintenance-plans" className="hover:text-white transition-colors flex items-center gap-2"><ChevronRight className="h-4 w-4 text-destructive" /> Comfort Club</Link></li>
             </ul>
           </div>
           {/* Service Areas */}
           <div className="space-y-6">
             <h3 className="text-xl font-bold tracking-tight uppercase text-white">Local Areas</h3>
             <ul className="grid grid-cols-1 gap-3 text-base text-primary-foreground/70 font-semibold">
-              {BUSINESS_CONFIG.serviceArea.cities.map(area => (
+              {BUSINESS_CONFIG.serviceArea.cities.slice(0, 5).map(area => (
                 <li key={area}>
                   <Link to="/service-areas" className="hover:text-white transition-colors flex items-center gap-2">
                     <MapPin className="h-4 w-4 text-destructive opacity-50" />
@@ -81,7 +81,7 @@ export function Footer() {
               ))}
             </ul>
             <div className="pt-4">
-              <Button asChild variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary font-bold">
+              <Button asChild className="hvac-cta-red w-full">
                 <Link to="/reviews">READ OUR REVIEWS</Link>
               </Button>
             </div>
