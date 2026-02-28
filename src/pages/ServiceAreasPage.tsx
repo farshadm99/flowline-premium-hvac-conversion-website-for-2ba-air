@@ -4,6 +4,7 @@ import { MapPin, ArrowRight, CheckCircle2, Navigation } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { updateSEO } from '@/lib/seo';
 import { BreadcrumbNav } from '@/components/site/BreadcrumbNav';
+import { BUSINESS_CONFIG } from '@/data/business-config';
 const cities = [
   {
     name: "City 1",
@@ -34,8 +35,8 @@ const cities = [
 export function ServiceAreasPage() {
   useEffect(() => {
     updateSEO({
-      title: "HVAC Service Areas | 2ba Air - Service Near You",
-      description: "We serve [City/County] and surrounding towns including [City 1], [City 2], and more. Call today for fast, local HVAC expertise.",
+      title: `HVAC Service Areas | ${BUSINESS_CONFIG.name} - Service Near You`,
+      description: `We serve ${BUSINESS_CONFIG.serviceArea.summary} and surrounding towns. Call today for fast, local HVAC expertise at ${BUSINESS_CONFIG.phone}.`,
     });
   }, []);
   return (
@@ -43,11 +44,11 @@ export function ServiceAreasPage() {
       <BreadcrumbNav />
       <div className="space-y-16">
         <section className="text-center max-w-3xl mx-auto space-y-6">
-          <h1 className="text-4xl sm:text-6xl font-display font-extrabold text-primary tracking-tight leading-tight">
+          <h1 className="text-4xl sm:text-6xl font-display font-extrabold text-primary tracking-tight">
             HVAC Service Areas
           </h1>
           <p className="text-xl text-muted-foreground leading-relaxed">
-            We proudly serve [City/County] and the surrounding communities. If you are near one of the locations below, we have a technician ready to help.
+            We proudly serve {BUSINESS_CONFIG.serviceArea.summary} and the surrounding communities. If you are near one of the locations below, we have a technician ready to help.
           </p>
         </section>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -90,7 +91,7 @@ export function ServiceAreasPage() {
             <p className="text-lg opacity-80 max-w-xl mx-auto">We are constantly expanding our range. Call us today and we'll let you know if we can reach your location.</p>
             <div className="flex justify-center gap-6">
               <Button asChild size="lg" className="hvac-cta-red">
-                <a href="tel:###-###-####">Call (###) ###-####</a>
+                <a href={BUSINESS_CONFIG.phoneRaw}>Call {BUSINESS_CONFIG.phone}</a>
               </Button>
               <Button asChild variant="outline" className="bg-white/10 border-white/20 text-white hover:bg-white hover:text-primary">
                 <Link to="/contact">Check Availability</Link>

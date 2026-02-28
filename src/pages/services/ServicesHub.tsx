@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { SERVICES_DATA } from '@/data/services-data';
 import { updateSEO } from '@/lib/seo';
 import { BreadcrumbNav } from '@/components/site/BreadcrumbNav';
+import { BUSINESS_CONFIG } from '@/data/business-config';
 const iconMap = {
   cooling: Wind,
   heating: Thermometer,
@@ -18,8 +19,8 @@ const iconMap = {
 export function ServicesHub() {
   useEffect(() => {
     updateSEO({
-      title: "HVAC Services in [Service Area], [State] | 2ba Air",
-      description: "Explore our full range of HVAC services including cooling, heating, heat pumps, air quality, and ductwork. Honest options and expert care.",
+      title: `HVAC Services in ${BUSINESS_CONFIG.serviceArea.summary}, ${BUSINESS_CONFIG.serviceArea.state} | ${BUSINESS_CONFIG.name}`,
+      description: `Explore our full range of HVAC services including cooling, heating, heat pumps, air quality, and ductwork in ${BUSINESS_CONFIG.serviceArea.summary}. Honest options and expert care.`,
     });
   }, []);
   return (
@@ -59,8 +60,8 @@ export function ServicesHub() {
                     {cat.services.length > 0 && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {cat.services.map(s => (
-                          <Link 
-                            key={s.slug} 
+                          <Link
+                            key={s.slug}
                             to={`/services/${cat.slug}/${s.slug}`}
                             className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-destructive transition-colors group/link"
                           >

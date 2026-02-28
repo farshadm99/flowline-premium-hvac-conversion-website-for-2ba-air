@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock, ShieldCheck, ChevronRight } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { Button } from '@/components/ui/button';
 import { BUSINESS_CONFIG } from '@/data/business-config';
 const LOGO_URL = "https://i.ibb.co/GvQ24WkQ/2BA-Logo.png";
 export function Footer() {
@@ -14,10 +15,10 @@ export function Footer() {
           <div className="space-y-8">
             <Link to="/" className="inline-block transition-transform hover:scale-105">
               {!logoError ? (
-                <img 
-                  src={LOGO_URL} 
-                  alt={`${BUSINESS_CONFIG.name} HVAC Professional Services`} 
-                  className="h-16 w-auto brightness-0 invert" 
+                <img
+                  src={LOGO_URL}
+                  alt={`${BUSINESS_CONFIG.name} HVAC Professional Services`}
+                  className="h-16 w-auto brightness-0 invert"
                   onError={() => setLogoError(true)}
                 />
               ) : (

@@ -4,6 +4,7 @@ import { Star, Quote, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ReviewBadgesRow } from '@/components/site/ReviewBadgesRow';
 import { updateSEO } from '@/lib/seo';
+import { BUSINESS_CONFIG } from '@/data/business-config';
 const testimonials = [
   {
     name: "Sarah J.",
@@ -33,14 +34,14 @@ const testimonials = [
 export function ReviewsPage() {
   useEffect(() => {
     updateSEO({
-      title: "Customer Reviews | 2ba Air HVAC Services",
-      description: "See what customers say about 2ba Air. Read real testimonials from [Service Area] and leave a review on Google, Yelp, or Facebook.",
+      title: `Customer Reviews | ${BUSINESS_CONFIG.name} HVAC Services`,
+      description: `See what customers say about ${BUSINESS_CONFIG.name}. Read real testimonials from ${BUSINESS_CONFIG.serviceArea.summary} and leave a review on Google, Yelp, or Facebook.`,
       jsonLd: {
         "@context": "https://schema.org",
         "@type": "AggregateRating",
         "itemReviewed": {
           "@type": "HVACBusiness",
-          "name": "2ba Air"
+          "name": BUSINESS_CONFIG.name
         },
         "ratingValue": "5.0",
         "reviewCount": "150"
@@ -52,7 +53,7 @@ export function ReviewsPage() {
       <section className="text-center space-y-6 max-w-3xl mx-auto">
         <h1 className="text-4xl sm:text-6xl font-display font-extrabold text-primary tracking-tight">Customer Reviews</h1>
         <p className="text-xl text-muted-foreground leading-relaxed">
-          We’re proud of the reputation we’ve built for honest service and clean workmanship across [Service Area].
+          We’re proud of the reputation we’ve built for honest service and clean workmanship across {BUSINESS_CONFIG.serviceArea.summary}.
         </p>
       </section>
       <div className="bg-primary/5 rounded-3xl p-8 border">
@@ -60,7 +61,7 @@ export function ReviewsPage() {
       </div>
       <section className="grid md:grid-cols-2 gap-8">
         {testimonials.map((t, i) => (
-          <motion.div 
+          <motion.div
             key={i}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -75,7 +76,7 @@ export function ReviewsPage() {
             </div>
             <p className="text-lg text-foreground italic mb-6 leading-relaxed">"{t.text}"</p>
             <div className="font-bold text-primary">{t.name}</div>
-            <div className="text-sm text-muted-foreground">{t.city}, [State]</div>
+            <div className="text-sm text-muted-foreground">{t.city}, {BUSINESS_CONFIG.serviceArea.state}</div>
           </motion.div>
         ))}
       </section>
