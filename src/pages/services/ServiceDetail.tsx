@@ -1,45 +1,33 @@
 import React, { useEffect } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CheckCircle2, ArrowRight, ShieldCheck, Phone, Info, Zap, Tag } from 'lucide-react';
+import { CheckCircle2, ArrowRight, ShieldCheck, Phone, Info, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { findServiceBySlug } from '@/data/services-data';
 import { updateSEO } from '@/lib/seo';
 import { BreadcrumbNav } from '@/components/site/BreadcrumbNav';
-import { BUSINESS_CONFIG } from '@/data/business-config';
 export function ServiceDetail() {
   const { category, detail } = useParams();
   const data = findServiceBySlug(category || '', detail || '');
   useEffect(() => {
     if (data) {
-      const titleWithConfig = data.metaTitle
-        .replace('[Service Area]', BUSINESS_CONFIG.serviceArea.summary)
-        .replace('[State]', BUSINESS_CONFIG.serviceArea.state);
-      const descWithConfig = data.metaDescription
-        .replace('[Service Area]', BUSINESS_CONFIG.serviceArea.summary);
       updateSEO({
-        title: titleWithConfig,
-        description: descWithConfig,
+        title: data.metaTitle,
+        description: data.metaDescription,
         jsonLd: {
           "@context": "https://schema.org",
           "@type": "Service",
           "serviceType": data.title,
           "provider": {
             "@type": "HVACBusiness",
-            "name": BUSINESS_CONFIG.name,
-            "telephone": BUSINESS_CONFIG.phone,
-            "areaServed": BUSINESS_CONFIG.serviceArea.cities
+            "name": "2ba Air"
           }
         }
       });
     }
   }, [data]);
   if (!data) return <Navigate to="/services" replace />;
-  const displayH1 = data.h1
-    .replace('[Service Area]', BUSINESS_CONFIG.serviceArea.summary)
-    .replace('[State]', BUSINESS_CONFIG.serviceArea.state);
   return (
     <div className="-mt-8 md:-mt-10 lg:-mt-12">
       <BreadcrumbNav />
@@ -47,21 +35,18 @@ export function ServiceDetail() {
         {/* HERO */}
         <section className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8">
-            <Badge className="bg-primary/10 text-primary hover:bg-primary/10 font-black px-4 py-2 rounded-full text-sm">
-              <Tag className="h-3 w-3 mr-2 text-destructive" /> Professional Assessment: {BUSINESS_CONFIG.assessmentPrice}
-            </Badge>
             <h1 className="text-4xl sm:text-6xl font-display font-extrabold text-primary tracking-tight leading-tight">
-              {displayH1}
+              {data.h1}
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
               {data.promise}
             </p>
             <div className="flex flex-wrap gap-4">
-              <Button asChild size="lg" className="hvac-cta-red h-14 px-8 font-bold">
-                <Link to="/contact">Request {BUSINESS_CONFIG.assessmentPrice} Assessment</Link>
+              <Button asChild size="lg" className="hvac-cta-red h-14 px-8">
+                <Link to="/contact">Request Service</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="h-14 px-8 border-primary text-primary font-bold">
-                <a href={BUSINESS_CONFIG.phoneRaw}><Phone className="mr-2 h-4 w-4" /> {BUSINESS_CONFIG.phone}</a>
+              <Button asChild size="lg" variant="outline" className="h-14 px-8 border-primary text-primary">
+                <a href="tel:###-###-####"><Phone className="mr-2 h-4 w-4" /> (###) ###-####</a>
               </Button>
             </div>
           </div>
@@ -125,13 +110,13 @@ export function ServiceDetail() {
           <h2 className="text-2xl font-bold text-primary mb-8">Related Services</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {data.relatedSlugs.map(slug => (
-              <Button key={slug} asChild variant="outline" className="h-auto p-6 justify-between rounded-2xl group hover:border-primary transition-all border-primary/20 bg-card">
+              <Button key={slug} asChild variant="outline" className="h-auto p-6 justify-between rounded-2xl group hover:border-primary transition-all">
                 <Link to={`/services/${category}/${slug}`}>
                   <div className="text-left">
                     <div className="text-sm text-muted-foreground uppercase tracking-wider mb-1">Service</div>
-                    <div className="text-lg font-bold text-primary group-hover:text-destructive transition-colors">{slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</div>
+                    <div className="text-lg font-bold text-primary group-hover:text-destructive">{slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}</div>
                   </div>
-                  <ArrowRight className="h-5 w-5 text-destructive group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="h-5 w-5 text-destructive" />
                 </Link>
               </Button>
             ))}
@@ -141,7 +126,7 @@ export function ServiceDetail() {
                   <div className="text-sm text-muted-foreground uppercase tracking-wider mb-1">Prevent It</div>
                   <div className="text-lg font-bold text-primary">Maintenance Plan</div>
                 </div>
-                <Zap className="h-5 w-5 text-destructive group-hover:scale-110 transition-transform" />
+                <Zap className="h-5 w-5 text-destructive" />
               </Link>
             </Button>
           </div>

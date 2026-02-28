@@ -86,23 +86,6 @@ export const SERVICES_DATA: ServiceCategory[] = [
           { step: 'Repair & Test', description: 'Restoring operation and verifying safety sensors.' }
         ],
         relatedSlugs: ['furnace-maintenance', 'heat-pump-repair-install']
-      },
-      {
-        slug: 'furnace-installation',
-        title: 'Furnace Installation',
-        metaTitle: 'New Furnace Installation | 2ba Air',
-        metaDescription: 'High-efficiency heating installation. Upgrade your home comfort and safety with professional replacement.',
-        h1: 'Furnace Installation & Replacement',
-        promise: 'We provide expert sizing and installation for maximum safety and lower monthly heating bills.',
-        symptoms: ['Unit older than 15 years', 'Cracked heat exchanger', 'Loud noises from motor', 'Carbon monoxide alarm triggered'],
-        checks: ['Compare repair vs replacement cost', 'Check system age', 'Note energy bill spikes'],
-        process: [
-          { step: 'Sizing', description: 'Proper load calculation for the space.' },
-          { step: 'Removal', description: 'Safe disposal of old equipment.' },
-          { step: 'Install', description: 'Code-compliant installation of new heating system.' },
-          { step: 'Validation', description: 'Testing for gas leaks and proper venting.' }
-        ],
-        relatedSlugs: ['furnace-maintenance', 'air-purifiers']
       }
     ]
   },
@@ -132,70 +115,20 @@ export const SERVICES_DATA: ServiceCategory[] = [
     ]
   },
   {
-    slug: 'ductwork-iaq',
-    title: 'Ductwork & IAQ',
-    description: 'Air Purifiers, Duct Sealing & Filtration',
-    h1: 'Air Quality & Ductwork Solutions',
+    slug: 'indoor-air-quality',
+    title: 'Air Quality',
+    description: 'Purifiers, UV Lights & Filtration',
+    h1: 'Indoor Air Quality Solutions',
     iconType: 'iaq',
-    services: [
-      {
-        slug: 'air-purifiers',
-        title: 'Air Purifiers',
-        metaTitle: 'Whole-Home Air Purifiers | 2ba Air',
-        metaDescription: 'Eliminate 99.9% of allergens and viruses with hospital-grade whole-home air purification.',
-        h1: 'Whole-Home Air Purification',
-        promise: 'Breathe easier with advanced systems that scrub the air as it circulates through your home.',
-        symptoms: ['Excessive dust', 'Linger odors', 'Allergy flare-ups', 'Visible mold in ducts'],
-        checks: ['Check air filter MERV rating', 'Note odors near vents', 'Inspect duct registries'],
-        process: [
-          { step: 'Assessment', description: 'Testing indoor air quality levels.' },
-          { step: 'Selection', description: 'Choosing between UV lights and HEPA filtration.' },
-          { step: 'Install', description: 'Direct integration with your existing HVAC system.' }
-        ],
-        relatedSlugs: ['duct-sealing', 'humidifiers']
-      },
-      {
-        slug: 'duct-sealing',
-        title: 'Duct Sealing',
-        metaTitle: 'Duct Sealing & Repair | 2ba Air',
-        metaDescription: 'Fix leaky ducts to improve comfort and save up to 30% on your energy bills.',
-        h1: 'Duct Sealing & Repair Services',
-        promise: 'Stop wasting money on conditioned air that never reaches your rooms.',
-        symptoms: ['Hot/cold rooms', 'High energy bills', 'Dust coming from vents', 'Whistling noises in walls'],
-        checks: ['Inspect exposed ducts in attic/basement', 'Feel for airflow at seams', 'Check for detached joints'],
-        process: [
-          { step: 'Inspection', description: 'Using thermal imaging to find leaks.' },
-          { step: 'Sealing', description: 'Applying mastic or tape to all critical joints.' },
-          { step: 'Balancing', description: 'Adjusting dampers for even airflow.' }
-        ],
-        relatedSlugs: ['air-purifiers', 'ac-maintenance']
-      }
-    ]
+    services: []
   },
   {
-    slug: 'thermostats',
-    title: 'Thermostats',
-    description: 'Smart Controls & WiFi Troubleshooting',
-    h1: 'Smart Thermostat & Control Services',
-    iconType: 'thermostat',
-    services: [
-      {
-        slug: 'smart-install',
-        title: 'Smart Thermostats',
-        metaTitle: 'Smart Thermostat Installation | 2ba Air',
-        metaDescription: 'Upgrade to Nest, Ecobee, or Honeywell. Professional installation and mobile setup for maximum control.',
-        h1: 'Smart Thermostat Installation',
-        promise: 'Modern controls that learn your habits and save you money automatically.',
-        symptoms: ['Outdated manual slider', 'Difficult to program', 'No remote control', 'Short cycling'],
-        checks: ['Verify Wi-Fi signal at thermostat', 'Check for "C" wire', 'Review compatibility'],
-        process: [
-          { step: 'Wiring', description: 'Professional installation of the baseplate and C-wire if needed.' },
-          { step: 'Configuration', description: 'Linking the unit to your home network.' },
-          { step: 'Education', description: 'Walkthrough of mobile app and scheduling features.' }
-        ],
-        relatedSlugs: ['wifi-troubleshooting', 'professional-wiring']
-      }
-    ]
+    slug: 'ductwork',
+    title: 'Ductwork',
+    description: 'Repair, Sealing & Balancing',
+    h1: 'Ductwork Design, Sealing & Repair',
+    iconType: 'ductwork',
+    services: []
   },
   {
     slug: 'commercial',
@@ -203,24 +136,7 @@ export const SERVICES_DATA: ServiceCategory[] = [
     description: 'Light Commercial HVAC Services',
     h1: 'Commercial HVAC Solutions',
     iconType: 'commercial',
-    services: [
-      {
-        slug: 'rtu-repair',
-        title: 'RTU Repair',
-        metaTitle: 'Commercial RTU Repair | 2ba Air',
-        metaDescription: 'Fast repair for commercial rooftop units. Keep your business running and your customers comfortable.',
-        h1: 'Commercial Rooftop Unit Repair',
-        promise: 'Priority response for businesses to minimize downtime and comfort loss.',
-        symptoms: ['Loud vibration', 'Water leaks through ceiling', 'Loss of cooling in retail space', 'High humidity'],
-        checks: ['Verify roof access', 'Check internal breakers', 'Note unit model and brand'],
-        process: [
-          { step: 'Access', description: 'Safe roof access and unit panel removal.' },
-          { step: 'Repair', description: 'Heavy-duty component replacement.' },
-          { step: 'Test', description: 'Multi-stage validation of cooling and heating cycles.' }
-        ],
-        relatedSlugs: ['preventative-maintenance', 'duct-balancing']
-      }
-    ]
+    services: []
   }
 ];
 export function findCategoryBySlug(slug: string) {

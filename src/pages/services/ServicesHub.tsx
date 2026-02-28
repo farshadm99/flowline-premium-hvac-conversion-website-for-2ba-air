@@ -1,13 +1,11 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Wind, Thermometer, Zap, Waves, Settings, Factory, Tag } from 'lucide-react';
+import { ArrowRight, Wind, Thermometer, Zap, Waves, Settings, ShieldCheck, Factory } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { SERVICES_DATA } from '@/data/services-data';
 import { updateSEO } from '@/lib/seo';
 import { BreadcrumbNav } from '@/components/site/BreadcrumbNav';
-import { BUSINESS_CONFIG } from '@/data/business-config';
 const iconMap = {
   cooling: Wind,
   heating: Thermometer,
@@ -20,8 +18,8 @@ const iconMap = {
 export function ServicesHub() {
   useEffect(() => {
     updateSEO({
-      title: `HVAC Services in ${BUSINESS_CONFIG.serviceArea.summary}, ${BUSINESS_CONFIG.serviceArea.state} | ${BUSINESS_CONFIG.name}`,
-      description: `Explore our full range of HVAC services including cooling, heating, heat pumps, air quality, and ductwork in ${BUSINESS_CONFIG.serviceArea.summary}. Assessments starting at ${BUSINESS_CONFIG.assessmentPrice}.`,
+      title: "HVAC Services in [Service Area], [State] | 2ba Air",
+      description: "Explore our full range of HVAC services including cooling, heating, heat pumps, air quality, and ductwork. Honest options and expert care.",
     });
   }, []);
   return (
@@ -29,9 +27,6 @@ export function ServicesHub() {
       <BreadcrumbNav />
       <div className="space-y-16">
         <section className="text-center max-w-3xl mx-auto space-y-6 px-4">
-          <Badge className="bg-destructive text-white hover:bg-destructive font-black px-4 py-2 rounded-full text-sm mb-4">
-            <Tag className="h-3 w-3 mr-2" /> Professional Assessment: {BUSINESS_CONFIG.assessmentPrice}
-          </Badge>
           <h1 className="text-4xl sm:text-6xl font-display font-extrabold text-primary tracking-tight">HVAC Services</h1>
           <p className="text-xl text-muted-foreground leading-relaxed">
             Whether it’s a quick repair or a full replacement, we’ll help you choose the right fix for comfort, efficiency, and long-term reliability.
@@ -64,8 +59,8 @@ export function ServicesHub() {
                     {cat.services.length > 0 && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {cat.services.map(s => (
-                          <Link
-                            key={s.slug}
+                          <Link 
+                            key={s.slug} 
                             to={`/services/${cat.slug}/${s.slug}`}
                             className="flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-destructive transition-colors group/link"
                           >
@@ -80,7 +75,7 @@ export function ServicesHub() {
                         <Link to={`/services/${cat.slug}`}>View All {cat.title}</Link>
                       </Button>
                       <Button asChild variant="ghost" className="text-primary font-bold">
-                        <Link to="/contact">Get Assessment</Link>
+                        <Link to="/contact">Get Estimate</Link>
                       </Button>
                     </div>
                   </div>
@@ -102,7 +97,7 @@ export function ServicesHub() {
                 <Link to="/troubleshooting">Troubleshooting Guide</Link>
               </Button>
               <Button asChild className="hvac-cta-red">
-                <Link to="/contact">Book {BUSINESS_CONFIG.assessmentPrice} Assessment</Link>
+                <Link to="/contact">Talk to an Expert</Link>
               </Button>
             </div>
           </div>
