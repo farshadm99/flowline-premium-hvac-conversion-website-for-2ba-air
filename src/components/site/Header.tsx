@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Menu, Phone, UserCircle, ChevronRight } from 'lucide-react';
+import { Menu, Phone, UserCircle } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import {
@@ -19,6 +19,7 @@ import {
   SheetTrigger,
 } from '@/components/ui/sheet';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { BUSINESS_CONFIG } from '@/data/business-config';
 const LOGO_URL = "https://i.ibb.co/GvQ24WkQ/2BA-Logo.png";
 const services = [
   { title: "Cooling", href: "/services/cooling", description: "AC Repair, Installation & Maintenance" },
@@ -34,7 +35,7 @@ export function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex h-20 items-center justify-between gap-4">
           <Link to="/" className="flex items-center gap-2 shrink-0">
-            <img src={LOGO_URL} alt="2ba Air Logo" className="h-12 w-auto object-contain" />
+            <img src={LOGO_URL} alt={`${BUSINESS_CONFIG.name} Logo`} className="h-12 w-auto object-contain" />
           </Link>
           <div className="hidden lg:flex items-center gap-8">
             <NavigationMenu>
@@ -81,22 +82,22 @@ export function Header() {
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <button disabled className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground cursor-not-allowed opacity-60">
+                  <Link to="/account" className="flex items-center gap-1.5 text-sm font-medium text-primary/80 hover:text-primary transition-colors">
                     <UserCircle className="h-5 w-5" />
                     Account
-                  </button>
+                  </Link>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Portal launching soon</p>
+                  <p>Customer portal coming soon!</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
           <div className="flex items-center gap-4">
             <Button asChild variant="outline" className="hidden sm:flex border-primary text-primary hover:bg-primary/5">
-              <a href="tel:###-###-####">
+              <a href={BUSINESS_CONFIG.phoneRaw}>
                 <Phone className="mr-2 h-4 w-4" />
-                (###) ###-####
+                {BUSINESS_CONFIG.phone}
               </a>
             </Button>
             <Button asChild className="hvac-cta-red hidden md:flex">
@@ -127,9 +128,10 @@ export function Header() {
                   <Link to="/faq" className="text-lg font-semibold hover:text-primary transition-colors">FAQ</Link>
                   <Link to="/reviews" className="text-lg font-semibold hover:text-primary transition-colors">Reviews</Link>
                   <Link to="/about" className="text-lg font-semibold hover:text-primary transition-colors">About</Link>
-                  <Separator />
+                  <Link to="/account" className="text-lg font-semibold text-primary/60 italic">Portal (Preview)</Link>
+                  <div className="h-px w-full bg-border my-2" />
                   <Link to="/contact" className="text-lg font-bold text-destructive">Request Service</Link>
-                  <a href="tel:###-###-####" className="flex items-center gap-2 text-lg font-semibold"><Phone className="h-5 w-5" />(###) ###-####</a>
+                  <a href={BUSINESS_CONFIG.phoneRaw} className="flex items-center gap-2 text-lg font-semibold text-primary"><Phone className="h-5 w-5" />{BUSINESS_CONFIG.phone}</a>
                 </nav>
               </SheetContent>
             </Sheet>
@@ -138,7 +140,4 @@ export function Header() {
       </div>
     </header>
   );
-}
-function Separator() {
-  return <div className="h-px w-full bg-border my-2" />;
 }

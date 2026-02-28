@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { AlertCircle, Phone, Clock, Mail, CheckCircle2, ShieldAlert } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Phone, Clock, Mail, CheckCircle2, ShieldAlert } from 'lucide-react';
+import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
@@ -12,10 +12,10 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { Card, CardContent } from '@/components/ui/card';
 import { updateSEO } from '@/lib/seo';
 import { api } from '@/lib/api-client';
+import { BUSINESS_CONFIG } from '@/data/business-config';
 const contactSchema = z.object({
   name: z.string().min(2, "Name is required"),
   phone: z.string().min(10, "Valid phone number required"),
@@ -31,7 +31,7 @@ export function ContactPage() {
   const [isEmergency, setIsEmergency] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { register, handleSubmit, formState: { errors }, reset, setValue, watch } = useForm<ContactFormData>({
+  const { register, handleSubmit, formState: { errors }, setValue } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
       serviceType: "Cooling",
@@ -40,10 +40,10 @@ export function ContactPage() {
   });
   useEffect(() => {
     updateSEO({
-      title: isEmergency ? "Emergency Service Request | 2ba Air" : "Contact 2ba Air | Request HVAC Service",
-      description: isEmergency 
-        ? "Emergency HVAC help needed? Switch to Emergency Mode and call now for fastest response in [Service Area]."
-        : "Request HVAC service or a free estimate online. Our team will reach out shortly to confirm scheduling.",
+      title: isEmergency ? `Emergency Service Request | ${BUSINESS_CONFIG.name}` : `Contact ${BUSINESS_CONFIG.name} | Request HVAC Service`,
+      description: isEmergency
+        ? `Emergency HVAC help needed? Switch to Emergency Mode and call now for fastest response in ${BUSINESS_CONFIG.serviceArea.summary}.`
+        : `Request HVAC service or a free estimate online. Our team will reach out shortly to confirm scheduling in ${BUSINESS_CONFIG.serviceArea.cities[0]}.`,
     });
   }, [isEmergency]);
   const onSubmit = async (data: ContactFormData) => {
@@ -74,10 +74,10 @@ export function ContactPage() {
         </div>
         <h1 className="text-4xl font-bold text-primary">Thank You!</h1>
         <p className="text-xl text-muted-foreground leading-relaxed">
-          Thank you for contacting 2ba Air. Your request has been received, and a member of our team will reach out shortly to confirm the details.
+          Thank you for contacting {BUSINESS_CONFIG.name}. Your request has been received, and a member of our team will reach out shortly to confirm the details.
         </p>
         <Button asChild size="lg" className="hvac-cta-navy mt-8">
-          <a href="/">Back to Home</a>
+          <Link to="/">Back to Home</Link>
         </Button>
       </div>
     );
@@ -97,9 +97,9 @@ export function ContactPage() {
               {isEmergency ? "Emergency Service Request" : "Request Service or Free Estimate"}
             </h1>
             <p className="text-muted-foreground text-lg">
-              {isEmergency 
+              {isEmergency
                 ? "Emergency request selected — please call now for fastest response."
-                : "Tell us what’s going on—our team will reach out shortly to confirm details and scheduling."
+                : "Tell us what��s going on—our team will reach out shortly to confirm details and scheduling."
               }
             </p>
           </div>
@@ -110,7 +110,7 @@ export function ContactPage() {
               </div>
               <div>
                 <div className="font-bold text-lg text-primary">Call Now</div>
-                <a href="tel:###-###-####" className="text-xl font-bold text-destructive hover:underline">[###-###-####]</a>
+                <a href={BUSINESS_CONFIG.phoneRaw} className="text-xl font-bold text-destructive hover:underline">{BUSINESS_CONFIG.phone}</a>
               </div>
             </div>
             {!isEmergency && (
@@ -121,7 +121,7 @@ export function ContactPage() {
                   </div>
                   <div>
                     <div className="font-bold text-lg text-primary">Email Us</div>
-                    <div className="text-muted-foreground">email@domain.com</div>
+                    <div className="text-muted-foreground">{BUSINESS_CONFIG.email}</div>
                   </div>
                 </div>
                 <div className="flex gap-4 items-start">
@@ -130,7 +130,7 @@ export function ContactPage() {
                   </div>
                   <div>
                     <div className="font-bold text-lg text-primary">Office Hours</div>
-                    <div className="text-muted-foreground">Mon–Sat 8am–6pm</div>
+                    <div className="text-muted-foreground">{BUSINESS_CONFIG.hours}</div>
                   </div>
                 </div>
               </>
@@ -229,7 +229,7 @@ export function ContactPage() {
               <div className="flex flex-col gap-4">
                 {isEmergency ? (
                   <Button asChild size="lg" className="hvac-cta-red w-full h-16 text-xl">
-                    <a href="tel:###-###-####">CALL NOW (EMERGENCY)</a>
+                    <a href={BUSINESS_CONFIG.phoneRaw}>CALL NOW (EMERGENCY)</a>
                   </Button>
                 ) : (
                   <Button type="submit" disabled={isLoading} size="lg" className="hvac-cta-navy w-full h-16 text-xl">
@@ -237,7 +237,7 @@ export function ContactPage() {
                   </Button>
                 )}
                 {!isEmergency && (
-                  <Button variant="outline" type="submit" disabled={isLoading} size="lg" className="w-full h-12">
+                  <Button variant="outline" type="submit" disabled={isLoading} size="lg" className="w-full h-12 border-primary text-primary">
                     Free Estimate Request
                   </Button>
                 )}

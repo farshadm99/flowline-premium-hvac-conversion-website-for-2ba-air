@@ -20,7 +20,7 @@ import { ServiceDetail } from '@/pages/services/ServiceDetail';
 import { AboutPage } from '@/pages/AboutPage';
 import { ServiceAreasPage } from '@/pages/ServiceAreasPage';
 import { ContactPage } from '@/pages/ContactPage';
-import { PlaceholderPage } from '@/pages/PlaceholderPage';
+import { AccountPage } from '@/pages/AccountPage';
 import { TroubleshootingPage } from '@/pages/TroubleshootingPage';
 import { FAQPage } from '@/pages/FAQPage';
 import { MaintenancePlansPage } from '@/pages/MaintenancePlansPage';
@@ -42,8 +42,8 @@ const router = createBrowserRouter([
       { path: "service-areas", element: <ServiceAreasPage /> },
       { path: "reviews", element: <ReviewsPage /> },
       { path: "contact", element: <ContactPage /> },
-      { path: "account", element: <PlaceholderPage title="Your Account (Coming Soon)" /> },
-      { path: "account/*", element: <PlaceholderPage title="Account Section" /> },
+      { path: "account", element: <AccountPage /> },
+      { path: "account/*", element: <AccountPage /> },
     ],
   },
 ]);

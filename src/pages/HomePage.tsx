@@ -16,23 +16,25 @@ import {
   Search,
   Wrench,
   ThumbsUp,
-  LayoutGrid
+  LayoutGrid,
+  Percent
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { ReviewBadgesRow } from '@/components/site/ReviewBadgesRow';
 import { updateSEO, commonSchemas } from '@/lib/seo';
+import { BUSINESS_CONFIG } from '@/data/business-config';
 export function HomePage() {
   useEffect(() => {
     updateSEO({
-      title: "HVAC Repair & Installation in [Service Area], [State] | 2ba Air",
-      description: "Fast AC repair, heating service, heat pumps, ductwork, and indoor air quality in [Service Area]. Licensed & insured. Call [Phone] for scheduling.",
+      title: `HVAC Repair & Installation in ${BUSINESS_CONFIG.serviceArea.summary} | ${BUSINESS_CONFIG.name}`,
+      description: `Fast AC repair, heating service, heat pumps, ductwork, and indoor air quality in ${BUSINESS_CONFIG.serviceArea.summary}. ${BUSINESS_CONFIG.license}. Call ${BUSINESS_CONFIG.phone} for scheduling.`,
       jsonLd: commonSchemas.localBusiness
     });
   }, []);
   return (
     <div className="space-y-24 -mt-8 md:-mt-10 lg:-mt-12">
       {/* HERO SECTION */}
-      <section className="relative overflow-hidden pt-12 lg:pt-20 pb-16">
+      <section className="relative overflow-hidden pt-12 lg:pt-20 pb-16 min-h-[700px] flex flex-col justify-center">
         <div className="absolute inset-0 bg-hvac-thermal-cool opacity-5 -z-10" />
         <div className="absolute inset-0 hvac-pattern-airflow opacity-10 -z-10" />
         <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -42,22 +44,22 @@ export function HomePage() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-destructive opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-destructive"></span>
               </span>
-              Same-day availability in [Service Area]
+              Same-day availability in {BUSINESS_CONFIG.serviceArea.cities[0]}
             </div>
             <h1 className="text-5xl lg:text-7xl font-display font-extrabold tracking-tight text-primary leading-[1.1]">
               Comfort You Can <span className="text-destructive underline decoration-primary/10">Count On</span>—Every Season.
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-xl">
-              Fast, honest HVAC service for homes and light commercial spaces across [Service Area]. Clear options, clean workmanship, and reliable comfort—without the runaround.
+              Fast, honest HVAC service for homes and light commercial spaces across {BUSINESS_CONFIG.serviceArea.summary}. Clear options, clean workmanship, and reliable comfort—without the runaround.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild size="lg" className="hvac-cta-red text-lg h-14 px-8">
-                <a href="tel:###-###-####">Call Now</a>
+                <a href={BUSINESS_CONFIG.phoneRaw}>Call Now</a>
               </Button>
               <Button asChild size="lg" className="hvac-cta-navy text-lg h-14 px-8">
                 <Link to="/contact">Request Service</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="text-lg h-14 px-8">
+              <Button asChild size="lg" variant="outline" className="text-lg h-14 px-8 border-primary text-primary">
                 <Link to="/contact?intent=estimate">Free Estimate</Link>
               </Button>
             </div>
@@ -91,11 +93,11 @@ export function HomePage() {
             </div>
           </motion.div>
         </div>
-        <div className="mt-16 md:mt-20">
+        <div className="mt-12 md:mt-16">
           <div className="flex items-center gap-4 mb-6">
-            <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground">Trusted Reviews</h2>
+            <h2 className="text-sm font-bold uppercase tracking-widest text-muted-foreground whitespace-nowrap">Trusted Reviews</h2>
             <div className="h-px flex-1 bg-border" />
-            <Link to="/reviews" className="text-sm font-semibold text-primary hover:text-destructive flex items-center">
+            <Link to="/reviews" className="text-sm font-semibold text-primary hover:text-destructive flex items-center whitespace-nowrap">
               Read all <ArrowRight className="ml-1 h-4 w-4" />
             </Link>
           </div>
@@ -125,7 +127,7 @@ export function HomePage() {
       <section className="space-y-12">
         <div className="text-center space-y-4 max-w-2xl mx-auto">
           <h2 className="text-3xl sm:text-4xl font-bold text-primary">HVAC help, without the guesswork.</h2>
-          <p className="text-lg text-muted-foreground">Tell us what’s happening��or choose a service below. We’ll confirm details, show clear options, and get your comfort back fast.</p>
+          <p className="text-lg text-muted-foreground">Tell us what’s happening—or choose a service below. We’ll confirm details, show clear options, and get your comfort back fast.</p>
         </div>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[
@@ -168,7 +170,7 @@ export function HomePage() {
               "Respect for your home",
               "Efficiency-focused airflow checks",
               "Friendly, explaining techs",
-              "Service across [Service Area]"
+              `Service across ${BUSINESS_CONFIG.serviceArea.cities[0]}`
             ].map(bullet => (
               <div key={bullet} className="flex items-start gap-2">
                 <CheckCircle2 className="h-5 w-5 text-destructive shrink-0 mt-0.5" />
@@ -255,7 +257,7 @@ export function HomePage() {
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">Call now or request service online—our team will confirm details and get you scheduled within minutes.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="hvac-cta-red text-lg h-16 px-12">
-              <a href="tel:###-###-####">Call Now</a>
+              <a href={BUSINESS_CONFIG.phoneRaw}>Call Now</a>
             </Button>
             <Button asChild size="lg" className="hvac-cta-navy text-lg h-16 px-12">
               <Link to="/contact">Request Service</Link>

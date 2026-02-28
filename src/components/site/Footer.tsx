@@ -2,8 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, Mail, Clock, ShieldCheck } from 'lucide-react';
 import { Separator } from '@/components/ui/separator';
+import { BUSINESS_CONFIG } from '@/data/business-config';
 const LOGO_URL = "https://i.ibb.co/GvQ24WkQ/2BA-Logo.png";
-const serviceAreas = ["City 1", "City 2", "City 3", "City 4", "City 5", "Nearby Towns"];
 export function Footer() {
   return (
     <footer className="bg-primary text-primary-foreground border-t border-primary/20">
@@ -12,14 +12,14 @@ export function Footer() {
           {/* Brand & Info */}
           <div className="space-y-6">
             <Link to="/">
-              <img src={LOGO_URL} alt="2ba Air Logo" className="h-14 w-auto brightness-0 invert" />
+              <img src={LOGO_URL} alt={`${BUSINESS_CONFIG.name} Logo`} className="h-14 w-auto brightness-0 invert" />
             </Link>
             <p className="text-primary-foreground/70 text-sm leading-relaxed max-w-xs">
-              Service-first HVAC team focused on reliability, honest options, and craftsmanship in [Service Area].
+              {BUSINESS_CONFIG.name} is a service-first HVAC team focused on reliability, honest options, and craftsmanship across {BUSINESS_CONFIG.serviceArea.summary}.
             </p>
             <div className="flex items-center gap-2 text-xs font-medium bg-white/10 w-fit px-3 py-1 rounded-full">
               <ShieldCheck className="h-4 w-4 text-destructive" />
-              Licensed & Fully Insured
+              {BUSINESS_CONFIG.license}
             </div>
           </div>
           {/* Contact Details */}
@@ -28,19 +28,19 @@ export function Footer() {
             <ul className="space-y-3 text-sm text-primary-foreground/70">
               <li className="flex gap-3">
                 <MapPin className="h-5 w-5 shrink-0 text-destructive" />
-                <span>[Street, City, State ZIP]</span>
+                <span>{BUSINESS_CONFIG.address.full}</span>
               </li>
               <li className="flex gap-3">
                 <Phone className="h-5 w-5 shrink-0 text-destructive" />
-                <a href="tel:###-###-####" className="hover:text-white transition-colors">[###-###-####]</a>
+                <a href={BUSINESS_CONFIG.phoneRaw} className="hover:text-white transition-colors">{BUSINESS_CONFIG.phone}</a>
               </li>
               <li className="flex gap-3">
                 <Mail className="h-5 w-5 shrink-0 text-destructive" />
-                <a href="mailto:email@domain.com" className="hover:text-white transition-colors">email@domain.com</a>
+                <a href={`mailto:${BUSINESS_CONFIG.email}`} className="hover:text-white transition-colors">{BUSINESS_CONFIG.email}</a>
               </li>
               <li className="flex gap-3">
                 <Clock className="h-5 w-5 shrink-0 text-destructive" />
-                <span>Mon–Sat 8am–6pm; 24/7 emergency available</span>
+                <span>{BUSINESS_CONFIG.hours}</span>
               </li>
             </ul>
           </div>
@@ -60,7 +60,7 @@ export function Footer() {
           <div className="space-y-4">
             <h3 className="text-lg font-semibold tracking-tight">Service Areas</h3>
             <ul className="grid grid-cols-2 gap-2 text-sm text-primary-foreground/70">
-              {serviceAreas.map(area => (
+              {BUSINESS_CONFIG.serviceArea.cities.map(area => (
                 <li key={area}>
                   <Link to="/service-areas" className="hover:text-white transition-colors">{area}</Link>
                 </li>
@@ -75,7 +75,7 @@ export function Footer() {
         </div>
         <Separator className="my-10 bg-primary-foreground/10" />
         <div className="flex flex-col md:flex-row justify-between items-center gap-6 text-xs text-primary-foreground/50">
-          <p>© {new Date().getFullYear()} 2ba Air. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {BUSINESS_CONFIG.name}. All rights reserved.</p>
           <div className="flex gap-8">
             <Link to="/faq" className="hover:text-white">FAQ</Link>
             <Link to="/troubleshooting" className="hover:text-white">Troubleshooting</Link>

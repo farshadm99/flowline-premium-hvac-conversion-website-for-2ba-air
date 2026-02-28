@@ -1,3 +1,4 @@
+import { BUSINESS_CONFIG } from '@/data/business-config';
 export interface SEOConfig {
   title: string;
   description: string;
@@ -45,18 +46,18 @@ export const commonSchemas = {
   localBusiness: {
     "@context": "https://schema.org",
     "@type": "HVACBusiness",
-    "name": "2ba Air",
+    "name": BUSINESS_CONFIG.name,
     "image": DEFAULT_LOGO,
-    "@id": "https://www.2baair.com",
-    "url": "https://www.2baair.com",
-    "telephone": "[###-###-####]",
-    "email": "email@domain.com",
+    "@id": BUSINESS_CONFIG.domain,
+    "url": BUSINESS_CONFIG.domain,
+    "telephone": BUSINESS_CONFIG.phone,
+    "email": BUSINESS_CONFIG.email,
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "[Street]",
-      "addressLocality": "[City]",
-      "addressRegion": "[State]",
-      "postalCode": "[ZIP]",
+      "streetAddress": BUSINESS_CONFIG.address.street,
+      "addressLocality": BUSINESS_CONFIG.address.city,
+      "addressRegion": BUSINESS_CONFIG.address.state,
+      "postalCode": BUSINESS_CONFIG.address.zip,
       "addressCountry": "US"
     },
     "geo": {
@@ -72,7 +73,7 @@ export const commonSchemas = {
         "closes": "18:00"
       }
     ],
-    "areaServed": ["City 1", "City 2", "City 3"],
+    "areaServed": BUSINESS_CONFIG.serviceArea.cities,
     "priceRange": "$$"
   }
 };
