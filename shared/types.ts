@@ -3,22 +3,33 @@ export interface ApiResponse<T = unknown> {
   data?: T;
   error?: string;
 }
-
-// Minimal real-world chat example types (shared by frontend and worker)
 export interface User {
   id: string;
   name: string;
 }
-
 export interface Chat {
   id: string;
   title: string;
 }
-
 export interface ChatMessage {
   id: string;
   chatId: string;
   userId: string;
   text: string;
-  ts: number; // epoch millis
+  ts: number;
 }
+export interface Lead {
+  id: string;
+  createdAt: number;
+  name: string;
+  phone: string;
+  email?: string;
+  address: string;
+  intent: 'service' | 'estimate' | 'emergency' | 'financing';
+  serviceType?: string;
+  emergencyType?: string;
+  preferredTime?: string;
+  message?: string;
+  emergency: boolean;
+}
+export type CreateLeadRequest = Omit<Lead, 'id' | 'createdAt'>;

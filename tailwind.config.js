@@ -146,6 +146,7 @@ export default {
   			glow: '0 0 20px -5px rgba(99, 102, 241, 0.4)',
   			'glow-lg': '0 0 40px -10px rgba(99, 102, 241, 0.3)',
   			primary: '0 0 20px -5px hsl(var(--primary) / 0.4)',
+  			destructive: '0 0 20px -5px hsl(var(--destructive) / 0.4)',
   			glass: '0 8px 32px 0 rgba(31, 38, 135, 0.37)'
   		},
   		keyframes: {
@@ -231,9 +232,11 @@ export default {
   			'accordion-up': 'accordion-up 0.2s ease-out'
   		},
   		backgroundImage: {
-  			'gradient-rainbow': 'linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%)',
-  			'gradient-primary': 'linear-gradient(135deg, #667eea, #764ba2)',
-  			'gradient-mesh': 'radial-gradient(at 40% 20%, hsla(28,100%,74%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(189,100%,56%,1) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(355,100%,93%,1) 0px, transparent 50%), radial-gradient(at 80% 50%, hsla(340,100%,76%,1) 0px, transparent 50%), radial-gradient(at 0% 100%, hsla(22,100%,77%,1) 0px, transparent 50%), radial-gradient(at 80% 100%, hsla(242,100%,70%,1) 0px, transparent 50%), radial-gradient(at 0% 0%, hsla(343,100%,76%,1) 0px, transparent 50%)'
+  			'gradient-rainbow': 'linear-gradient(135deg, #0B1B3B 0%, #163B78 25%, #D7262E 50%, #163B78 75%, #0B1B3B 100%)',
+  			'gradient-primary': 'linear-gradient(135deg, #0B1B3B, #163B78)',
+  			'hvac-thermal-cool': 'linear-gradient(135deg, #0B1B3B 0%, #163B78 50%, #00d2ff 100%)',
+  			'hvac-thermal-heat': 'linear-gradient(135deg, #0B1B3B 0%, #163B78 50%, #D7262E 100%)',
+  			'gradient-mesh': 'radial-gradient(at 40% 20%, hsla(218,100%,14%,1) 0px, transparent 50%), radial-gradient(at 80% 0%, hsla(218,68%,28%,1) 0px, transparent 50%), radial-gradient(at 0% 50%, hsla(0,70%,50%,0.1) 0px, transparent 50%)'
   		}
   	}
   },
