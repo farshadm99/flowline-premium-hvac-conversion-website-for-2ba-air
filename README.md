@@ -1,6 +1,6 @@
 # Cloudflare Workers React Template
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/farshadm99/flowline-premium-hvac-conversion-website-for-2ba-air)
 
 A production-ready Cloudflare Workers + React template featuring multi-entity storage powered by a single Durable Object. Perfect for building scalable full-stack apps with cost-effective persistence.
 
@@ -149,7 +149,7 @@ This builds frontend assets and deploys to your Cloudflare account.
 - Inline source maps for debugging
 - SPA fallback (`assets.not_found_handling: "single-page-application"`)
 
-[cloudflarebutton]
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/farshadm99/flowline-premium-hvac-conversion-website-for-2ba-air)
 
 ## 🤝 Contributing
 
